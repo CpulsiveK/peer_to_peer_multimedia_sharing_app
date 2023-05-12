@@ -10,5 +10,3 @@ void sendRequestType({
 }) {
   socket.write("$id $requestType ");
 }
-
-
