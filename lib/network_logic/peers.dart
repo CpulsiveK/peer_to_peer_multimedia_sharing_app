@@ -2,35 +2,43 @@ import 'dart:io';
 import 'peers_utils.dart';
 
 class Peers {
+  final String id;
+  final String? serverAddr;
+  final int port;
+
+  Peers({
+    required this.id,
+    required this.serverAddr,
+    required this.port,
+  });
+
   Future<void> makeFilesPublic({
     required List<String> files,
-    required String id,
   }) async {
     try {
-      final socket = await Socket.connect(serverAddr, port);
+      final peerPocket = await Socket.connect(serverAddr, port);
 
       const requestType = 'makeFilePublic';
-      sendRequestType(socket: socket, requestType: requestType, id: id);
+      sendRequestType(socket: peerPocket, requestType: requestType, id: id);
 
       int numberOfFiles = files.length;
-      socket.write('$numberOfFiles');
+      peerPocket.write('$numberOfFiles');
 
       const waitTimeToSendFile = 2;
 
       for (String file in files) {
-        socket.write(file);
+        peerPocket.write(file);
         await Future.delayed(const Duration(seconds: waitTimeToSendFile));
       }
 
-      await socket.flush();
-      await socket.close();
+      await peerPocket.flush();
+      await peerPocket.close();
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> searchPublicFiles(
-      {required String fileName, required String id}) async {
+  Future<void> searchPublicFiles({required String fileName}) async {
     try {
       final socket = await Socket.connect(serverAddr, port);
 
@@ -38,11 +46,6 @@ class Peers {
       sendRequestType(socket: socket, requestType: requestType, id: id);
 
       socket.write(fileName);
-
-      // socket.listen((data) {
-      //   final result = String.fromCharCodes(data);
-      //   print(result);
-      // });
 
       await for (final data in socket) {
         final result = String.fromCharCodes(data).trim();
@@ -54,8 +57,12 @@ class Peers {
   }
 }
 
-void main(List<String> args) {
-  final peers = Peers();
-  peers.searchPublicFiles(fileName: 'file1', id: 'user001');
-  // peers.makeFilesPublic(files: ['file1', 'file2'], id: 'gh001');
+void main(List<String> args) async {
+  const int serverPort = 5050;
+
+  final String? serverAddr = await getIndexerAddress();
+  print(serverAddr);
+  
+  final peer = Peers(id: 'user0001', serverAddr: serverAddr, port: serverPort);
+  peer.makeFilesPublic(files: ['file1', 'file2']);
 }
