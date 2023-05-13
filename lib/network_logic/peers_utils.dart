@@ -1,5 +1,7 @@
 import 'dart:io';
 
+const waitTimeToSendData = 1;
+
 Future<String?> getIndexerAddress() async {
   const int multicastPort = 10000;
   late String? serverAddr;

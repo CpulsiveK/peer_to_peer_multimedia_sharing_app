@@ -17,18 +17,22 @@ class Peers {
   }) async {
     try {
       final peerPocket = await Socket.connect(serverAddr, port);
+      print('connected to indexer: $serverAddr');
 
       const requestType = 'makeFilePublic';
+
       sendRequestType(socket: peerPocket, requestType: requestType, id: id);
+
+      Future.delayed(const Duration(seconds: waitTimeToSendData));
 
       int numberOfFiles = files.length;
       peerPocket.write('$numberOfFiles');
 
-      const waitTimeToSendFile = 2;
+      Future.delayed(const Duration(seconds: waitTimeToSendData));
 
       for (String file in files) {
         peerPocket.write(file);
-        await Future.delayed(const Duration(seconds: waitTimeToSendFile));
+        await Future.delayed(const Duration(seconds: waitTimeToSendData));
       }
 
       await peerPocket.flush();
@@ -41,9 +45,13 @@ class Peers {
   Future<void> searchPublicFiles({required String fileName}) async {
     try {
       final socket = await Socket.connect(serverAddr, port);
-
+      print('connected to indexer: $serverAddr');
+      
       const requestType = 'searchFile';
+
       sendRequestType(socket: socket, requestType: requestType, id: id);
+
+      Future.delayed(const Duration(seconds: waitTimeToSendData));
 
       socket.write(fileName);
 
@@ -61,8 +69,8 @@ void main(List<String> args) async {
   const int serverPort = 5050;
 
   final String? serverAddr = await getIndexerAddress();
-  print(serverAddr);
-  
+  print('received indexer ip: $serverAddr');
+
   final peer = Peers(id: 'user0001', serverAddr: serverAddr, port: serverPort);
   peer.makeFilesPublic(files: ['file1', 'file2']);
 }
