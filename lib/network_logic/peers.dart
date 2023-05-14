@@ -64,13 +64,3 @@ class Peers {
     }
   }
 }
-
-void main(List<String> args) async {
-  const int serverPort = 5050;
-
-  final String? serverAddr = await getIndexerAddress();
-  print('received indexer ip: $serverAddr');
-
-  final peer = Peers(id: 'user0001', serverAddr: serverAddr, port: serverPort);
-  peer.makeFilesPublic(files: ['file1', 'file2']);
-}

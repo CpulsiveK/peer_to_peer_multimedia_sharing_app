@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'peers.dart';
 
 const waitTimeToSendData = 1;
+const int serverPort = 5050;
 
 Future<String?> getIndexerAddress() async {
   const int multicastPort = 10000;
@@ -19,6 +21,13 @@ Future<String?> getIndexerAddress() async {
   });
 
   return serverAddr;
+}
+
+void instantiatePeer() async {
+  final serverAddr = await getIndexerAddress();
+  print("received indexer address as: $serverAddr");
+
+  final peer = Peers(id: 'user0001', serverAddr: serverAddr, port: serverPort);
 }
 
 void sendRequestType({
