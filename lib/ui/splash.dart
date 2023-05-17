@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-import '../network_logic/peers_utils.dart';
-// import 'dashboard.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -15,29 +12,29 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
 
-    instantiatePeer();
-    // Navigator.pushReplacement(
-    //     context, MaterialPageRoute(builder: (context) => const Dashboard()));
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pushReplacementNamed(context, 'login');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1B0D6F),
+        backgroundColor: const Color(0xFF1B0D6F),
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
-          Text(
-            'MediaShareX',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 50,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const <Widget>[
+              Text(
+                'MediaShareX',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }

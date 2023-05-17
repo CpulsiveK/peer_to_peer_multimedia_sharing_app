@@ -3,12 +3,12 @@ import 'peers_utils.dart';
 
 class Peers {
   final String id;
-  final String? serverAddr;
+  final String? indexerAddr;
   final int port;
 
   Peers({
     required this.id,
-    required this.serverAddr,
+    required this.indexerAddr,
     required this.port,
   });
 
@@ -16,8 +16,8 @@ class Peers {
     required List<String> files,
   }) async {
     try {
-      final peerPocket = await Socket.connect(serverAddr, port);
-      print('connected to indexer: $serverAddr');
+      final peerPocket = await Socket.connect(indexerAddr, port);
+      print('connected to indexer: $indexerAddr');
 
       const requestType = 'makeFilePublic';
 
@@ -44,9 +44,9 @@ class Peers {
 
   Future<void> searchPublicFiles({required String fileName}) async {
     try {
-      final socket = await Socket.connect(serverAddr, port);
-      print('connected to indexer: $serverAddr');
-      
+      final socket = await Socket.connect(indexerAddr, port);
+      print('connected to indexer: $indexerAddr');
+
       const requestType = 'searchFile';
 
       sendRequestType(socket: socket, requestType: requestType, id: id);
