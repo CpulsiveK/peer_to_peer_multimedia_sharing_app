@@ -2,10 +2,11 @@ import 'dart:io';
 
 const waitTimeToSendData = 1;
 const int indexerPort = 5050;
+String? indexerAddr;
 
 Future<String> getIndexerAddress() async {
   const int multicastPort = 10000;
-  late String result;
+  late final String result;
 
   try {
     var socket =
@@ -22,10 +23,12 @@ Future<String> getIndexerAddress() async {
   } catch (e) {
     rethrow;
   }
-
   return result;
 }
 
+void receiveIndexerAddr() async {
+  indexerAddr = await getIndexerAddress();
+}
 
 void sendRequestType({
   required Socket socket,

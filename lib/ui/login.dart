@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/src/widgets/framework.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -64,12 +64,8 @@ class _LoginState extends State<Login> {
                 const SizedBox(height: 170),
                 TextField(
                   controller: _controller,
-                  textAlign: TextAlign.start,
-                  readOnly: false,
-                  obscureText: false,
-                  textCapitalization: TextCapitalization.none,
                   decoration: const InputDecoration(
-                    labelText: 'username',
+                    hintText: 'username',
                   ),
                   style: const TextStyle(fontSize: 20),
                 ),
@@ -110,6 +106,17 @@ class _LoginState extends State<Login> {
   }
 
   void _onButtonPressed() {
-    Navigator.pushReplacementNamed(context, 'dashboard');
+    final String id = _controller.text;
+
+    receiveIndexerAddr();
+
+    if (indexerAddr == null) {
+      return;
+    }
+
+    debugPrint("[THESE ARE THE ARGS] $id $indexerAddr");
+
+    Navigator.pushReplacementNamed(context, 'dashboard',
+        arguments: [id, indexerAddr]);
   }
 }

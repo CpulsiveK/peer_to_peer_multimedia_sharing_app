@@ -5,7 +5,7 @@ import 'ui/splash.dart';
 
 void main() {
   runApp(MaterialApp(
-    initialRoute: 'splash',
+    initialRoute: 'dashboard',
     routes: {
       'splash': (context) => const Splash(),
       'login': (context) => const Login(),
