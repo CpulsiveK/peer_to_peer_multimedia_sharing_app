@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'file_manager/homepage.dart';
+
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -37,11 +39,6 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo.shade900,
-        onPressed: getStorageAccessPermission,
-        child: const Icon(color: Colors.white, Icons.share),
-      ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -78,11 +75,14 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       )),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.indigo.shade900,
+        onPressed: () async {
+          final PermissionStatus status = await Permission.storage.request();
+          debugPrint("[PERMISSION]: $status");
+        },
+        child: const Icon(color: Colors.white, Icons.share),
+      ),
     );
-  }
-
-  void getStorageAccessPermission() async {
-    final PermissionStatus status = await Permission.storage.request();
-    debugPrint("[PERMISSION]: $status");
   }
 }
