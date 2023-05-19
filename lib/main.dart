@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard.dart';
+import 'ui/file_manager/homepage.file_manager.dart';
 import 'ui/login.dart';
 import 'ui/splash.dart';
-import 'ui/file_manager/file_manager.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,7 +12,7 @@ void main() {
       'splash': (context) => const Splash(),
       'login': (context) => const Login(),
       'dashboard': (context) => const Dashboard(),
-      'file manager': (context) => const FileManager()
+      'file_manager': (context) => const HomePage()
     },
   ));
 }

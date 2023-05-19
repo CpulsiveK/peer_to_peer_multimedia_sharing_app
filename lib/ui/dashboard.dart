@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'file_manager/homepage.dart';
-
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -80,6 +78,8 @@ class _DashboardState extends State<Dashboard> {
         onPressed: () async {
           final PermissionStatus status = await Permission.storage.request();
           debugPrint("[PERMISSION]: $status");
+
+          Navigator.pushNamed(context, 'file_manager');
         },
         child: const Icon(color: Colors.white, Icons.share),
       ),
