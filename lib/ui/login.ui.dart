@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -84,8 +83,9 @@ class _LoginState extends State<Login> {
                             minimumSize: MaterialStateProperty.all<Size>(
                                 const Size(150, 50)),
                           ),
-                          onPressed:
-                              _isTextfieldEmpty ? null : _onButtonPressed,
+                          onPressed: _isTextfieldEmpty
+                              ? () => _showSnackBar(context)
+                              : _onButtonPressed,
                           child: const Text(
                             "Let's go!",
                             textAlign: TextAlign.center,
@@ -105,18 +105,26 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _onButtonPressed() {
+  void _showSnackBar(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.red,
+        content: const Text('username field cannot be left empty'),
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      ),
+    );
+  }
+
+  void _onButtonPressed() async {
     final String id = _controller.text;
+    id;
 
-    receiveIndexerAddr();
-
-    if (indexerAddr == null) {
-      return;
-    }
-
-    debugPrint("[THESE ARE THE ARGS] $id $indexerAddr");
-
-    Navigator.pushReplacementNamed(context, 'dashboard',
-        arguments: [id, indexerAddr]);
+    Navigator.pushReplacementNamed(context, 'dashboard');
   }
 }

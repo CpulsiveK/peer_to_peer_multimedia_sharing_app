@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard.ui.dart';
-import 'ui/file_manager/homepage.file_manager.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding.ui.dart';
+import 'ui/widgets/file_manager/homepage.file_manager.dart';
 import 'ui/login.ui.dart';
-import 'ui/splash.ui.dart';
+import 'ui/splash_screen.ui.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: 'dashboard',
+    themeMode: ThemeMode.system,
+    initialRoute: 'splash',
     routes: {
-      'splash': (context) => const Splash(),
+      'splash': (context) => const SplashScreen(),
+      'onboarding': (context) => const TutorialPage(),
       'login': (context) => const Login(),
       'dashboard': (context) => const Dashboard(),
-      'file_manager': (context) => const HomePage()
+      'file_manager': (context) => const HomePage(),
     },
   ));
 }

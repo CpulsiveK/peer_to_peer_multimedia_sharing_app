@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 
 const waitTimeToSendData = 1;
 const int indexerPort = 5050;
-String? indexerAddr;
-
 
 Future<String> getIndexerAddress() async {
   const int multicastPort = 10000;
@@ -26,10 +23,6 @@ Future<String> getIndexerAddress() async {
     rethrow;
   }
   return result;
-}
-
-void receiveIndexerAddr() async {
-  indexerAddr = await getIndexerAddress();
 }
 
 void sendRequestType({

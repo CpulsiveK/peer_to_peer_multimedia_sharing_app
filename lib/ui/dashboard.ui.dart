@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  // String? id;
-  // String? indexerAddr;
+  late String id;
+  late String indexerAddr;
+  late String searchText;
 
   final TextEditingController _controller = TextEditingController();
-  String _searchText = '';
 
   @override
   void initState() {
@@ -22,15 +22,18 @@ class _DashboardState extends State<Dashboard> {
     // final arguements =
     //     ModalRoute.of(context)!.settings.arguments as List<dynamic>;
 
-    // id = arguements[0] as String?;
-    // indexerAddr = arguements[1] as String?;
+    // id = arguements[0] as String;
+    // indexerAddr = arguements[1] as String;
+
+    // final Peers peers =
+    //     Peers(id: id, indexerAddr: indexerAddr, port: indexerPort);
 
     _controller.addListener(_onSearchTextChanged);
   }
 
   void _onSearchTextChanged() {
     setState(() {
-      _searchText = _controller.text;
+      searchText = _controller.text;
     });
   }
 
@@ -48,9 +51,9 @@ class _DashboardState extends State<Dashboard> {
               decoration: InputDecoration(
                   hintText: 'Search...',
                   hintStyle: TextStyle(color: Colors.indigo.shade900),
-                  prefixIcon: Icon(color: Colors.indigo.shade900, Icons.search),
+                  prefixIcon: Icon(Icons.search, color: Colors.indigo.shade900),
                   suffixIcon: IconButton(
-                    icon: Icon(color: Colors.indigo.shade900, Icons.clear),
+                    icon: Icon(Icons.clear, color: Colors.indigo.shade900),
                     onPressed: () {
                       _controller.clear();
                       _onSearchTextChanged();
@@ -67,7 +70,9 @@ class _DashboardState extends State<Dashboard> {
                 keyboardDismissBehavior:
                     ScrollViewKeyboardDismissBehavior.onDrag,
                 itemCount: 50,
-                itemBuilder: ((context, index) {}),
+                itemBuilder: ((context, index) {
+                  return null;
+                }),
               ),
             ),
           ],
