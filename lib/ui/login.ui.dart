@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +26,28 @@ class _LoginState extends State<Login> {
     });
   }
 
+  Future<String> _getIndexerAddress() async {
+    const int multicastPort = 10000;
+    late final String result;
+
+    try {
+      var socket =
+          await RawDatagramSocket.bind(InternetAddress.anyIPv4, multicastPort);
+      socket.joinMulticast(InternetAddress('224.0.0.1'));
+
+      await socket.forEach((event) {
+        if (event == RawSocketEvent.read) {
+          final datagram = socket.receive();
+          result = String.fromCharCodes(datagram!.data);
+          socket.close();
+        }
+      });
+    } catch (e) {
+      rethrow;
+    }
+    return result;
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -34,20 +57,21 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.indigo.shade900,
       body: SafeArea(
         child: SingleChildScrollView(
           // reverse: true,
           child: Column(
             children: <Widget>[
               Container(
-                height: 500,
+                height: 600,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(90)),
                     color: Color(0xFF1B0D6F)),
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -75,16 +99,19 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 80,),
+                    const SizedBox(
+                      height: 60,
+                    ),
                     TextField(
                       controller: _controller,
                       decoration: const InputDecoration(
                         hintText: 'username',
                       ),
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 18, color: Colors.white),
                     ),
                     const SizedBox(
                       height: 30,
@@ -98,7 +125,7 @@ class _LoginState extends State<Login> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.indigo.shade900),
+                                        Colors.white),
                                 minimumSize: MaterialStateProperty.all<Size>(
                                     const Size(150, 50)),
                               ),
@@ -110,8 +137,8 @@ class _LoginState extends State<Login> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                    fontSize: 20,
+                                    color: Color(0xFF1B0D6F)),
                               )),
                         ),
                       ],
@@ -145,15 +172,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _authenticateUser() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? username = prefs.getString('username');
-
-    if (username != null && username == _controller.text) {
-      Navigator.pushReplacementNamed(context, 'dashboard');
-    }
-  }
-
   void _onButtonPressed() async {
     final String id = _controller.text;
     id;
@@ -161,6 +179,6 @@ class _LoginState extends State<Login> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', id);
 
-    _authenticateUser();
+    Navigator.pushReplacementNamed(context, 'dashboard');
   }
 }

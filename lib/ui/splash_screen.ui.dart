@@ -13,11 +13,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    navigateToNextScreen();
+    _navigateToNextScreen();
   }
 
-  Future<void> navigateToNextScreen() async {
-    final flags = await getFlags();
+  Future<void> _navigateToNextScreen() async {
+    final flags = await _getFlags();
 
     Future.delayed(const Duration(seconds: 5), () {
       if (flags[1] != null) {
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  Future<List> getFlags() async {
+  Future<List> _getFlags() async {
     final prefs = await SharedPreferences.getInstance();
     return [prefs.getBool('screenShown'), prefs.getString('username')];
   }
