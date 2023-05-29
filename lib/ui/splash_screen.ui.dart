@@ -17,10 +17,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> navigateToNextScreen() async {
-    final isScreenShown = await getFlag();
+    final flags = await getFlags();
 
     Future.delayed(const Duration(seconds: 5), () {
-      if (isScreenShown == true) {
+      if (flags[1] != null) {
+        Navigator.pushReplacementNamed(context, 'dashboard');
+      } else if (flags[0] == true) {
         Navigator.pushReplacementNamed(context, 'login');
       } else {
         Navigator.pushReplacementNamed(context, 'onboarding');
@@ -28,9 +30,9 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  Future<bool?> getFlag() async {
+  Future<List> getFlags() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('screenShown');
+    return [prefs.getBool('screenShown'), prefs.getString('username')];
   }
 
   @override

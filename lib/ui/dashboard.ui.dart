@@ -45,12 +45,12 @@ class _DashboardState extends State<Dashboard> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 50),
             TextField(
               controller: _controller,
               decoration: InputDecoration(
                   hintText: 'Search...',
-                  hintStyle: TextStyle(color: Colors.indigo.shade900),
+                  hintStyle: TextStyle(
+                      color: Colors.indigo.shade900, fontFamily: 'sans-serif'),
                   prefixIcon: Icon(Icons.search, color: Colors.indigo.shade900),
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear, color: Colors.indigo.shade900),
@@ -60,8 +60,11 @@ class _DashboardState extends State<Dashboard> {
                     },
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  )),
+                      borderRadius: BorderRadius.circular(30),
+                      borderSide: BorderSide(
+                        color: Colors.indigo.shade900,
+                        width: 0.5,
+                      ))),
             ),
             Expanded(
               child: ListView.builder(
