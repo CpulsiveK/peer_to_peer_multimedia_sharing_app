@@ -41,6 +41,7 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Container(
                 height: 500,
+                width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(90)),
@@ -48,10 +49,8 @@ class _LoginState extends State<Login> {
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 170,
-                      ),
                       Text(
                         'MediaShareX',
                         style: TextStyle(
@@ -64,7 +63,7 @@ class _LoginState extends State<Login> {
                         height: 40,
                       ),
                       Text(
-                        'Enter a username which will be used to uniquely identify you on the network',
+                        "Let's identify you on the network",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,

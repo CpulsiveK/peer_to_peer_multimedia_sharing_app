@@ -48,23 +48,21 @@ class _DashboardState extends State<Dashboard> {
             TextField(
               controller: _controller,
               decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(
-                      color: Colors.indigo.shade900, fontFamily: 'sans-serif'),
-                  prefixIcon: Icon(Icons.search, color: Colors.indigo.shade900),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear, color: Colors.indigo.shade900),
-                    onPressed: () {
-                      _controller.clear();
-                      _onSearchTextChanged();
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide(
-                        color: Colors.indigo.shade900,
-                        width: 0.5,
-                      ))),
+                hintText: 'Search...',
+                hintStyle: TextStyle(
+                    color: Colors.indigo.shade900, fontFamily: 'sans-serif'),
+                prefixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                    color: Colors.indigo.shade900),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear, color: Colors.indigo.shade900),
+                  onPressed: () {
+                    _controller.clear();
+                    _onSearchTextChanged();
+                  },
+                ),
+              ),
             ),
             Expanded(
               child: ListView.builder(
