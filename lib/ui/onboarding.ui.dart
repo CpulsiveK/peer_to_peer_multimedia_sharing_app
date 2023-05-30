@@ -14,15 +14,15 @@ class TutorialPageState extends State<TutorialPage> {
   final PageController _pageController = PageController(initialPage: 0);
   final List<TutorialData> tutorialData = [
     TutorialData(
-      title: 'Welcome to MediaShareX',
-      description:
-          'A peer-to-peer platform for sharing media between friends and family from anywhere\n - without the Internet!',
+      title: 'Get Started with our app',
+      description: 'A peer-to-peer platform for sharing media between friends and family from anywhere without the use of Internet!',
       icon: null,
     ),
     TutorialData(
       title: 'Share your files with Everyone!',
-      description: '',
+      description: 'by using the share icon button at the bottom left corner of your dashboard\n\n',
       icon: const Icon(
+        weight: 50,
         Icons.share,
         color: kBaseColour,
         size: 150.0,
@@ -30,17 +30,13 @@ class TutorialPageState extends State<TutorialPage> {
     ),
     TutorialData(
       title: 'Search for any file!',
-      description: '',
+      description: 'using the search bar at the top of your dashboard\n\n',
       icon: const Icon(
+        weight: 50,
         Icons.manage_search_rounded,
         color: kBaseColour,
         size: 200.0,
       ),
-    ),
-    TutorialData(
-      title: 'Get Started',
-      description: 'Get started with our app.',
-      icon: null,
     ),
   ];
 
@@ -73,6 +69,7 @@ class TutorialPageState extends State<TutorialPage> {
     });
 
     return Scaffold(
+      backgroundColor: Colors.indigo.shade900,
       body: Column(
         children: [
           Expanded(
