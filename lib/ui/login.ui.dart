@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,28 +23,6 @@ class _LoginState extends State<Login> {
     setState(() {
       _isTextfieldEmpty = _controller.text.isEmpty;
     });
-  }
-
-  Future<String> _getIndexerAddress() async {
-    const int multicastPort = 10000;
-    late final String result;
-
-    try {
-      var socket =
-          await RawDatagramSocket.bind(InternetAddress.anyIPv4, multicastPort);
-      socket.joinMulticast(InternetAddress('224.0.0.1'));
-
-      await socket.forEach((event) {
-        if (event == RawSocketEvent.read) {
-          final datagram = socket.receive();
-          result = String.fromCharCodes(datagram!.data);
-          socket.close();
-        }
-      });
-    } catch (e) {
-      rethrow;
-    }
-    return result;
   }
 
   @override
