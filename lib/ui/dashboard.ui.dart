@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Dashboard extends StatefulWidget {
@@ -9,24 +13,12 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late String id;
-  late String indexerAddr;
   late String searchText;
-
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    // final arguements =
-    //     ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-
-    // id = arguements[0] as String;
-    // indexerAddr = arguements[1] as String;
-
-    // final Peers peers =
-    //     Peers(id: id, indexerAddr: indexerAddr, port: indexerPort);
 
     _controller.addListener(_onSearchTextChanged);
   }
@@ -37,8 +29,28 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  void _selectFile() async {
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      files;
+
+      // Navigator.pushNamed(context, 'routeName', arguments: {'files': files});
+    } else {
+      // User canceled the picker
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Map args = ModalRoute.of(context)!.settings.arguments as Map;
+
+    Peers peers = Peers(
+        id: args['id'], indexerAddr: args['indexerAddr'], port: indexerPort);
+    peers;
+
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -85,7 +97,8 @@ class _DashboardState extends State<Dashboard> {
           final PermissionStatus status = await Permission.storage.request();
           debugPrint("[PERMISSION]: $status");
 
-          Navigator.pushNamed(context, 'file_manager');
+          _selectFile();
+          // Navigator.pushNamed(context, 'file_manager');
         },
         child: const Icon(color: Colors.white, Icons.share),
       ),

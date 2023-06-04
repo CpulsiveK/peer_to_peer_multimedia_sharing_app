@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -11,6 +12,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController _controller = TextEditingController();
   bool _isTextfieldEmpty = true;
+  String indexerAddr = '';
+  Map data = {};
 
   @override
   void initState() {
@@ -33,6 +36,11 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    final Object? args = ModalRoute.of(context)!.settings.arguments;
+    data = args as Map;
+    indexerAddr = args['indexerAddr'];
+    print(args);
+
     return Scaffold(
       backgroundColor: Colors.indigo.shade900,
       body: SafeArea(
@@ -107,7 +115,8 @@ class _LoginState extends State<Login> {
                                     const Size(150, 50)),
                               ),
                               onPressed: _isTextfieldEmpty
-                                  ? () => _showSnackBar(context)
+                                  ? () => showSnackBar(context,
+                                      'username field cannot be left empty')
                                   : _onButtonPressed,
                               child: const Text(
                                 "Let's go!",
@@ -130,32 +139,14 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _showSnackBar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: Colors.red,
-        content: const Text(
-          'username field cannot be left empty',
-          style: TextStyle(fontSize: 16),
-        ),
-        duration: const Duration(seconds: 3),
-        action: SnackBarAction(
-          label: 'Close',
-          onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          },
-        ),
-      ),
-    );
-  }
-
   void _onButtonPressed() async {
-    final String id = _controller.text;
-    id;
+    final String id = _controller.text.trim();
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', id);
 
-    Navigator.pushReplacementNamed(context, 'dashboard');
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, 'dashboard',
+        arguments: {'id': id, 'indexerAddr': indexerAddr});
   }
 }

@@ -15,12 +15,14 @@ class TutorialPageState extends State<TutorialPage> {
   final List<TutorialData> tutorialData = [
     TutorialData(
       title: 'Get Started with our app',
-      description: 'A peer-to-peer platform for sharing media between friends and family from anywhere without the use of Internet!',
+      description:
+          'A peer-to-peer platform for sharing media between friends and family from anywhere without the use of Internet!',
       icon: null,
     ),
     TutorialData(
       title: 'Share your files with Everyone!',
-      description: 'by using the share icon button at the bottom left corner of your dashboard\n\n',
+      description:
+          'by using the share icon button at the bottom left corner of your dashboard\n\n',
       icon: const Icon(
         weight: 50,
         Icons.share,
@@ -67,6 +69,8 @@ class TutorialPageState extends State<TutorialPage> {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool('screenShown', true);
     });
+
+    final Object? args = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
       backgroundColor: Colors.indigo.shade900,
@@ -119,7 +123,8 @@ class TutorialPageState extends State<TutorialPage> {
                   padding: const EdgeInsets.only(right: 10.0),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'login');
+                      Navigator.pushReplacementNamed(context, 'login',
+                          arguments: args );
                     },
                     child: const Text(
                       'Done!',
