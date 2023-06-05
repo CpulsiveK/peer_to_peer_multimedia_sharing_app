@@ -41,98 +41,107 @@ class _LoginState extends State<Login> {
     indexerAddr = args['indexerAddr'];
     print(args);
 
-    return Scaffold(
-      backgroundColor: Colors.indigo.shade900,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          // reverse: true,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 600,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(90)),
-                    color: Color(0xFF1B0D6F)),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
+    return GestureDetector(
+      onTap: () {
+        // Hide the keyboard when the user taps outside of the input fields
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        // backgroundColor: Colors.deepPurple,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            // reverse: true,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: (MediaQuery.of(context).size.height)*(68/100),
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(120)),
+                      color: Colors.deepPurple),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'MediaShareX',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Text(
+                          "Let's identify you on the network",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'MediaShareX',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 50,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
+                      const SizedBox(
+                        height: 60,
                       ),
-                      SizedBox(
-                        height: 40,
+                      TextField(
+                        controller: _controller,
+                        onTapOutside:(event) {
+                          
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'username',
+                        ),
+                        style: const TextStyle(fontSize: 18),
                       ),
-                      Text(
-                        "Let's identify you on the network",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal),
+                      const SizedBox(
+                        height: 30,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.deepPurple),
+                                  minimumSize: MaterialStateProperty.all<Size>(
+                                      const Size(150, 50)),
+                                ),
+                                onPressed: _isTextfieldEmpty
+                                    ? () => showSnackBar(context,
+                                        'username field cannot be left empty')
+                                    : _onButtonPressed,
+                                child: const Text(
+                                  "Let's go!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                )),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    TextField(
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        hintText: 'username',
-                      ),
-                      style: const TextStyle(fontSize: 18, color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                minimumSize: MaterialStateProperty.all<Size>(
-                                    const Size(150, 50)),
-                              ),
-                              onPressed: _isTextfieldEmpty
-                                  ? () => showSnackBar(context,
-                                      'username field cannot be left empty')
-                                  : _onButtonPressed,
-                              child: const Text(
-                                "Let's go!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: Color(0xFF1B0D6F)),
-                              )),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -13,20 +13,10 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late String searchText;
-  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    _controller.addListener(_onSearchTextChanged);
-  }
-
-  void _onSearchTextChanged() {
-    setState(() {
-      searchText = _controller.text;
-    });
   }
 
   void _selectFile() async {
@@ -35,7 +25,9 @@ class _DashboardState extends State<Dashboard> {
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
-      files;
+      for (File file in files) {
+        print('[FILE].......${file.path}');
+      }
 
       // Navigator.pushNamed(context, 'routeName', arguments: {'files': files});
     } else {
@@ -50,57 +42,86 @@ class _DashboardState extends State<Dashboard> {
     Peers peers = Peers(
         id: args['id'], indexerAddr: args['indexerAddr'], port: indexerPort);
     peers;
-
-    return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Search...',
-                hintStyle: TextStyle(
-                    color: Colors.indigo.shade900, fontFamily: 'sans-serif'),
-                prefixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                    color: Colors.indigo.shade900),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear, color: Colors.indigo.shade900),
-                  onPressed: () {
-                    _controller.clear();
-                    _onSearchTextChanged();
-                  },
+    
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurple,
+          bottom: const TabBar(
+            labelColor: Colors.white,
+            labelPadding: EdgeInsets.all(8.0),
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.white,
+            tabs: [
+              Tab(
+                child: Text(
+                  'Shared',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
               ),
+              Tab(
+                child: Text(
+                  'Online',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  'Downloads',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              // Expanded(
+              //   child: ListView.builder(itemBuilder: (BuildContext context, int index) {},
+              //     // ...
+              //   ),
+              // ),
+            ],
+          ),
+        ),
+        floatingActionButton: Stack(
+          children: [
+            Positioned(
+              bottom: 90.0,
+              right: 1.0,
+              child: FloatingActionButton(
+                backgroundColor: Colors.deepPurple,
+                onPressed: () async {},
+                child: const Icon(Icons.search, color: Colors.white),
+              ),
             ),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                itemCount: 50,
-                itemBuilder: ((context, index) {
-                  return null;
-                }),
+            Positioned(
+              bottom: 28.0,
+              right: 1.0,
+              child: FloatingActionButton(
+                backgroundColor: Colors.deepPurple,
+                onPressed: () async {
+                  final PermissionStatus status =
+                      await Permission.storage.request();
+                  debugPrint("[PERMISSION]: $status");
+    
+                  _selectFile();
+                  // Navigator.pushNamed(context, 'file_manager');
+                },
+                child: const Icon(Icons.share, color: Colors.white),
               ),
             ),
           ],
         ),
-      )),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.indigo.shade900,
-        onPressed: () async {
-          final PermissionStatus status = await Permission.storage.request();
-          debugPrint("[PERMISSION]: $status");
-
-          _selectFile();
-          // Navigator.pushNamed(context, 'file_manager');
-        },
-        child: const Icon(color: Colors.white, Icons.share),
       ),
     );
   }

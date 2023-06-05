@@ -73,7 +73,7 @@ class TutorialPageState extends State<TutorialPage> {
     final Object? args = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
-      backgroundColor: Colors.indigo.shade900,
+      backgroundColor: Colors.deepPurple,
       body: Column(
         children: [
           Expanded(

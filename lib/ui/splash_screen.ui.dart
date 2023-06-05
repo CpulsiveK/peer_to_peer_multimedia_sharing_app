@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 'MediaShareX',
                 style: TextStyle(
-                    color: Color(0xFF1B0D6F),
+                    color: Colors.deepPurple,
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic),
