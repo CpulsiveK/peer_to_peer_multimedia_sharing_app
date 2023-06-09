@@ -1,8 +1,12 @@
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/content-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.widgets.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.widgets.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Dashboard extends StatefulWidget {
@@ -13,26 +17,37 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  FilePickerResult? result;
 
-  @override
-  void initState() {
-    super.initState();
+  void selectFile() async {
+    if (await Permission.storage.request().isGranted) {
+
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const LoadingAnimation());
+
+      result = await FilePicker.platform.pickFiles(allowMultiple: true);
+      Navigator.of(context).pop();
+
+      if (result == null) return;
+
+      loadSelectedFiles(result!.files);
+
+      
+    } else {
+      showSnackBar(context, 'Cannot access device storage without permission');
+    }
   }
 
-  void _selectFile() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: true);
+  void loadSelectedFiles(List<PlatformFile> files) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: ((context) =>
+            ContentDisplay(files: files, onOpenedFile: viewFiles))));
+  }
 
-    if (result != null) {
-      List<File> files = result.paths.map((path) => File(path!)).toList();
-      for (File file in files) {
-        print('[FILE].......${file.path}');
-      }
-
-      // Navigator.pushNamed(context, 'routeName', arguments: {'files': files});
-    } else {
-      // User canceled the picker
-    }
+  void viewFiles(PlatformFile file) {
+    OpenFile.open(file.path!);
   }
 
   @override
@@ -42,56 +57,29 @@ class _DashboardState extends State<Dashboard> {
     Peers peers = Peers(
         id: args['id'], indexerAddr: args['indexerAddr'], port: indexerPort);
     peers;
-    
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple,
+          title: const Text(
+            'Dashboard',
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.white,
           bottom: const TabBar(
-            labelColor: Colors.white,
+            labelColor: Colors.deepPurple,
             labelPadding: EdgeInsets.all(8.0),
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(
-                child: Text(
-                  'Shared',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              Tab(
-                child: Text(
-                  'Online',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              Tab(
-                child: Text(
-                  'Downloads',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
+            indicatorColor: Colors.deepPurple,
+            tabs: [Tabs('Shared'), Tabs('Online'), Tabs('Downloads')],
           ),
         ),
         body: const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              // Expanded(
-              //   child: ListView.builder(itemBuilder: (BuildContext context, int index) {},
-              //     // ...
-              //   ),
-              // ),
-            ],
-          ),
+          padding: EdgeInsets.all(8.0),
+          child: TabViews(),
         ),
         floatingActionButton: Stack(
           children: [
@@ -109,14 +97,7 @@ class _DashboardState extends State<Dashboard> {
               right: 1.0,
               child: FloatingActionButton(
                 backgroundColor: Colors.deepPurple,
-                onPressed: () async {
-                  final PermissionStatus status =
-                      await Permission.storage.request();
-                  debugPrint("[PERMISSION]: $status");
-    
-                  _selectFile();
-                  // Navigator.pushNamed(context, 'file_manager');
-                },
+                onPressed: selectFile,
                 child: const Icon(Icons.share, color: Colors.white),
               ),
             ),
@@ -126,3 +107,5 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
+
+// change size of icons on dashboard

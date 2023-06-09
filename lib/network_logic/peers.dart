@@ -12,9 +12,7 @@ class Peers {
     required this.port,
   });
 
-  Future<void> makeFilesPublic({
-    required List<String> files,
-  }) async {
+  Future<void> makeFilesPublic({required Map fileInfo}) async {
     try {
       final peerPocket = await Socket.connect(indexerAddr, port);
       print('connected to indexer: $indexerAddr');
@@ -25,15 +23,12 @@ class Peers {
 
       Future.delayed(const Duration(seconds: waitTimeToSendData));
 
-      int numberOfFiles = files.length;
-      peerPocket.write('$numberOfFiles');
-
       Future.delayed(const Duration(seconds: waitTimeToSendData));
 
-      for (String file in files) {
-        peerPocket.write(file);
+      fileInfo.forEach(((key, value) async {
+        peerPocket.write(value);
         await Future.delayed(const Duration(seconds: waitTimeToSendData));
-      }
+      }));
 
       await peerPocket.flush();
       await peerPocket.close();

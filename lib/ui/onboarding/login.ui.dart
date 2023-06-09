@@ -104,7 +104,7 @@ class _LoginState extends State<Login> {
                         decoration: const InputDecoration(
                           hintText: 'username',
                         ),
-                        style: const TextStyle(fontSize: 18),
+                        style: const TextStyle(fontSize: 16),
                       ),
                       const SizedBox(
                         height: 30,
@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.deepPurple),
                                   minimumSize: MaterialStateProperty.all<Size>(
-                                      const Size(150, 50)),
+                                      const Size(80, 50)),
                                 ),
                                 onPressed: _isTextfieldEmpty
                                     ? () => showSnackBar(context,
@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       color: Colors.white),
                                 )),
                           ),

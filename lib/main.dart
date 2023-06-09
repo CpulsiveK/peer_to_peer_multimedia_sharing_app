@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding.ui.dart';
-import 'ui/login.ui.dart';
-import 'ui/splash_screen.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/onboarding.ui.dart';
+import 'ui/onboarding/login.ui.dart';
+import 'ui/onboarding/splash_screen.ui.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -16,6 +18,7 @@ void main() async {
       'onboarding': (context) => const TutorialPage(),
       'login': (context) => const Login(),
       'dashboard': (context) => const Dashboard(),
+      // 'content-display': (context) => const ContentDisplay();
     },
   ));
 }
