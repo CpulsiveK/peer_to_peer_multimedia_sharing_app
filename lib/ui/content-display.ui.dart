@@ -43,6 +43,10 @@ class _ContentDisplayState extends State<ContentDisplay> {
     });
   }
 
+  void navigateToDashboard() {
+    Navigator.pop(context, widget.files);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +68,7 @@ class _ContentDisplayState extends State<ContentDisplay> {
                 color: Colors.white,
               )),
           IconButton(
-              onPressed: () {},
+              onPressed: navigateToDashboard,
               icon: const Icon(
                 Icons.share,
                 color: Colors.white,
@@ -75,6 +79,7 @@ class _ContentDisplayState extends State<ContentDisplay> {
         padding: const EdgeInsets.all(8.0),
         child: Expanded(
           child: ListView.builder(
+            shrinkWrap: true,
             scrollDirection: Axis.vertical,
             itemCount: widget.files.length,
             itemBuilder: (context, int index) {
@@ -107,6 +112,9 @@ class _ContentDisplayState extends State<ContentDisplay> {
                   icon = const Icon(Icons.file_present_rounded, size: 50);
                   break;
                 case 'xlsx':
+                  icon = const Icon(Icons.file_present_rounded, size: 50);
+                  break;
+                case 'pptx':
                   icon = const Icon(Icons.file_present_rounded, size: 50);
                   break;
                 case 'gif':

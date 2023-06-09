@@ -18,10 +18,14 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   FilePickerResult? result;
+  List<PlatformFile> receivedSharedFiles = [];
+  List<String> sharedFileDocuments = [];
+  List<String> sharedPictures = [];
+  List<String> sharedVideos = [];
+  List<String> sharedAudio = [];
 
   void selectFile() async {
     if (await Permission.storage.request().isGranted) {
-
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -33,21 +37,48 @@ class _DashboardState extends State<Dashboard> {
       if (result == null) return;
 
       loadSelectedFiles(result!.files);
-
-      
     } else {
       showSnackBar(context, 'Cannot access device storage without permission');
     }
   }
 
-  void loadSelectedFiles(List<PlatformFile> files) {
-    Navigator.of(context).push(MaterialPageRoute(
+  void loadSelectedFiles(List<PlatformFile> files) async {
+    receivedSharedFiles = await Navigator.of(context).push(MaterialPageRoute(
         builder: ((context) =>
             ContentDisplay(files: files, onOpenedFile: viewFiles))));
+
+    categorizeFiles();
   }
 
   void viewFiles(PlatformFile file) {
     OpenFile.open(file.path!);
+  }
+
+  void categorizeFiles() {
+    for (PlatformFile file in receivedSharedFiles) {
+      if (file.extension == 'pdf' ||
+          file.extension == 'docx' ||
+          file.extension == 'xlsx' ||
+          file.extension == 'pptx') {
+        setState(() {
+          sharedFileDocuments.add(file.name);
+        });
+      } else if (file.extension == 'jpg' ||
+          file.extension == 'gif' ||
+          file.extension == 'png') {
+        setState(() {
+          sharedPictures.add(file.name);
+        });
+      } else if (file.extension == 'mp4' || file.extension == 'mkv') {
+        setState(() {
+          sharedVideos.add(file.name);
+        });
+      } else if (file.extension == 'mp3') {
+        setState(() {
+          sharedAudio.add(file.name);
+        });
+      }
+    }
   }
 
   @override
@@ -77,9 +108,79 @@ class _DashboardState extends State<Dashboard> {
             tabs: [Tabs('Shared'), Tabs('Online'), Tabs('Downloads')],
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: TabViews(),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TabBarView(
+            children: [
+              ListView(
+                children: [
+                  const Row(
+                    children: [
+                      DescriptionTexts('Ms Docs'),
+                      DescriptionTexts('Excel'),
+                      DescriptionTexts('Pdf'),
+                    ],
+                  ),
+                  SharedContent(
+                      sharedFiles: sharedFileDocuments,
+                      itemCount: sharedFileDocuments.length,
+                      icon: const Icon(size: 60, Icons.file_present_rounded)),
+                  const Row(
+                    children: [
+                      DescriptionTexts('Pictures'),
+                      DescriptionTexts('Gifs'),
+                    ],
+                  ),
+                  SharedContent(
+                      sharedFiles: sharedPictures,
+                      itemCount: sharedPictures.length,
+                      icon: const Icon(size: 60, Icons.gif_box_outlined)),
+                  const Row(
+                    children: [
+                      DescriptionTexts('Video'),
+                    ],
+                  ),
+                  SharedContent(
+                      sharedFiles: sharedVideos,
+                      itemCount: sharedVideos.length,
+                      icon: const Icon(
+                        size: 60,
+                        Icons.video_file_rounded,
+                      )),
+                  const Row(
+                    children: [
+                      DescriptionTexts('Audio'),
+                    ],
+                  ),
+                  SharedContent(
+                      sharedFiles: sharedAudio,
+                      itemCount: sharedAudio.length,
+                      icon: const Icon(
+                        size: 60,
+                        Icons.audiotrack_rounded,
+                      )),
+                ],
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return const Card();
+                  },
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return const Card();
+                  },
+                ),
+              )
+            ],
+          ),
         ),
         floatingActionButton: Stack(
           children: [
@@ -107,5 +208,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-
-// change size of icons on dashboard

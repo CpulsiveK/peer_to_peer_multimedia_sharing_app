@@ -18,7 +18,6 @@ void main() async {
       'onboarding': (context) => const TutorialPage(),
       'login': (context) => const Login(),
       'dashboard': (context) => const Dashboard(),
-      // 'content-display': (context) => const ContentDisplay();
     },
   ));
 }
