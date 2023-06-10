@@ -33,7 +33,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   ? 'login'
                   : 'onboarding',
           arguments: flags[1] != null
-              ? {'id': flags[1], 'indexerAddr': indexerAddr}
+              ? {
+                  'id': flags[1],
+                  'indexerAddr': indexerAddr,
+                  'sharedFileDocuments': flags[3],
+                  'sharedPictures': flags[4],
+                  'sharedVideos': flags[5],
+                  'sharedAudio': flags[6]
+                }
               : {'indexerAddr': indexerAddr});
     });
   }
@@ -82,7 +89,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return [
       prefs.getBool('screenShown'),
       prefs.getString('username'),
-      prefs.getString('indexerAddr')
+      prefs.getString('indexerAddr'),
+      prefs.getStringList('sharedFileDocuments'),
+      prefs.getStringList('sharedPictures'),
+      prefs.getStringList('sharedVideos'),
+      prefs.getStringList('sharedAudio'),
     ];
   }
 

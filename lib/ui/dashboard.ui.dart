@@ -8,6 +8,7 @@ import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-a
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.widgets.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -17,15 +18,23 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  Map args = {};
   FilePickerResult? result;
   List<PlatformFile> receivedSharedFiles = [];
+
   List<String> sharedFileDocuments = [];
   List<String> sharedPictures = [];
   List<String> sharedVideos = [];
   List<String> sharedAudio = [];
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void selectFile() async {
     if (await Permission.storage.request().isGranted) {
+      // ignore: use_build_context_synchronously
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -79,11 +88,22 @@ class _DashboardState extends State<Dashboard> {
         });
       }
     }
+
+    cacheSharedFiles();
+  }
+
+  void cacheSharedFiles() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setStringList('sharedFIleDocuments', sharedFileDocuments);
+    await prefs.setStringList('sharedPictures', sharedPictures);
+    await prefs.setStringList('sharedVideos', sharedVideos);
+    await prefs.setStringList('sharedAudio', sharedAudio);
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map args = ModalRoute.of(context)!.settings.arguments as Map;
+    args = ModalRoute.of(context)!.settings.arguments as Map;
 
     Peers peers = Peers(
         id: args['id'], indexerAddr: args['indexerAddr'], port: indexerPort);
