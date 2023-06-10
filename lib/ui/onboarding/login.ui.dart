@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.widgets.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -9,7 +9,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
   final TextEditingController _controller = TextEditingController();
   bool _isTextfieldEmpty = true;
   String indexerAddr = '';
@@ -36,6 +36,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final Object? args = ModalRoute.of(context)!.settings.arguments;
     data = args as Map;
     indexerAddr = args['indexerAddr'];
@@ -54,7 +56,7 @@ class _LoginState extends State<Login> {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: (MediaQuery.of(context).size.height)*(68/100),
+                  height: (MediaQuery.of(context).size.height) * (68 / 100),
                   width: MediaQuery.of(context).size.width,
                   decoration: const BoxDecoration(
                       borderRadius:
@@ -97,10 +99,9 @@ class _LoginState extends State<Login> {
                         height: 60,
                       ),
                       TextField(
+                        key: const PageStorageKey('usernameField'),
                         controller: _controller,
-                        onTapOutside:(event) {
-                          
-                        },
+                        onTapOutside: (event) {},
                         decoration: const InputDecoration(
                           hintText: 'username',
                         ),
@@ -158,4 +159,7 @@ class _LoginState extends State<Login> {
     Navigator.pushReplacementNamed(context, 'dashboard',
         arguments: {'id': id, 'indexerAddr': indexerAddr});
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

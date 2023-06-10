@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.widgets.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 
 class ContentDisplay extends StatefulWidget {
   final List<PlatformFile> files;
@@ -14,7 +14,8 @@ class ContentDisplay extends StatefulWidget {
   State<ContentDisplay> createState() => _ContentDisplayState();
 }
 
-class _ContentDisplayState extends State<ContentDisplay> {
+class _ContentDisplayState extends State<ContentDisplay>
+    with AutomaticKeepAliveClientMixin {
   FilePickerResult? result;
 
   @override
@@ -49,6 +50,8 @@ class _ContentDisplayState extends State<ContentDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
@@ -79,6 +82,7 @@ class _ContentDisplayState extends State<ContentDisplay> {
         padding: const EdgeInsets.all(8.0),
         child: Expanded(
           child: ListView.builder(
+            key: const PageStorageKey('contentDisplay'),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             itemCount: widget.files.length,
@@ -161,4 +165,7 @@ class _ContentDisplayState extends State<ContentDisplay> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

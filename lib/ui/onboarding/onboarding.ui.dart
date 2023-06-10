@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-widgets.onboarding.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-utils.onboarding.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-widgets.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/onboarding-utils.ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TutorialPage extends StatefulWidget {
@@ -10,7 +10,8 @@ class TutorialPage extends StatefulWidget {
   TutorialPageState createState() => TutorialPageState();
 }
 
-class TutorialPageState extends State<TutorialPage> {
+class TutorialPageState extends State<TutorialPage>
+    with AutomaticKeepAliveClientMixin {
   final PageController _pageController = PageController(initialPage: 0);
   final List<TutorialData> tutorialData = [
     TutorialData(
@@ -32,7 +33,8 @@ class TutorialPageState extends State<TutorialPage> {
     ),
     TutorialData(
       title: 'Search for any file!',
-      description: 'using the search button right above your share button at the bottom right corner of your dashboard\n\n',
+      description:
+          'using the search button right above your share button at the bottom right corner of your dashboard\n\n',
       icon: const Icon(
         weight: 50,
         Icons.manage_search_rounded,
@@ -66,6 +68,8 @@ class TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool('screenShown', true);
     });
@@ -75,6 +79,7 @@ class TutorialPageState extends State<TutorialPage> {
     return Scaffold(
       backgroundColor: Colors.deepPurple,
       body: SafeArea(
+        key: const PageStorageKey('onboarding'),
         child: Column(
           children: [
             Expanded(
@@ -125,7 +130,7 @@ class TutorialPageState extends State<TutorialPage> {
                     child: TextButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, 'login',
-                            arguments: args );
+                            arguments: args);
                       },
                       child: const Text(
                         'Done!',
@@ -140,4 +145,7 @@ class TutorialPageState extends State<TutorialPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

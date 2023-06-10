@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-widgets.onboarding.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-widgets.ui.dart';
 
 class TutorialData {
   final String title;

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/content-display.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.widgets.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.widgets.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.widgets.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/tabviews.ui.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +17,7 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixin {
   Map args = {};
   FilePickerResult? result;
   List<PlatformFile> receivedSharedFiles = [];
@@ -27,9 +27,12 @@ class _DashboardState extends State<Dashboard> {
   List<String> sharedVideos = [];
   List<String> sharedAudio = [];
 
-  @override
+   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadCache();
+    });
   }
 
   void selectFile() async {
@@ -101,8 +104,21 @@ class _DashboardState extends State<Dashboard> {
     await prefs.setStringList('sharedAudio', sharedAudio);
   }
 
+  void loadCache() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    setState(() {
+      sharedFileDocuments = prefs.getStringList('sharedFileDocuments') ?? [];
+      sharedPictures = prefs.getStringList('sharedPictures') ?? [];
+      sharedVideos = prefs.getStringList('SharedVideos') ?? [];
+      sharedAudio = prefs.getStringList('sharedAudio') ?? [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     args = ModalRoute.of(context)!.settings.arguments as Map;
 
     Peers peers = Peers(
@@ -133,6 +149,7 @@ class _DashboardState extends State<Dashboard> {
           child: TabBarView(
             children: [
               ListView(
+                key: const PageStorageKey('shared'),
                 children: [
                   const Row(
                     children: [
@@ -227,4 +244,7 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -36,10 +36,6 @@ class _SplashScreenState extends State<SplashScreen> {
               ? {
                   'id': flags[1],
                   'indexerAddr': indexerAddr,
-                  'sharedFileDocuments': flags[3],
-                  'sharedPictures': flags[4],
-                  'sharedVideos': flags[5],
-                  'sharedAudio': flags[6]
                 }
               : {'indexerAddr': indexerAddr});
     });
@@ -90,10 +86,10 @@ class _SplashScreenState extends State<SplashScreen> {
       prefs.getBool('screenShown'),
       prefs.getString('username'),
       prefs.getString('indexerAddr'),
-      prefs.getStringList('sharedFileDocuments'),
-      prefs.getStringList('sharedPictures'),
-      prefs.getStringList('sharedVideos'),
-      prefs.getStringList('sharedAudio'),
+      // prefs.getStringList('sharedFileDocuments'),
+      // prefs.getStringList('sharedPictures'),
+      // prefs.getStringList('sharedVideos'),
+      // prefs.getStringList('sharedAudio'),
     ];
   }
 
