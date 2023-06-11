@@ -1,8 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
@@ -58,7 +56,7 @@ class _DashboardState extends State<Dashboard>
   void loadSelectedFiles(List<PlatformFile> files) async {
     receivedSharedFiles = await Navigator.of(context).push(MaterialPageRoute(
         builder: ((context) =>
-            ContentDisplay(files: files, onOpenedFile: viewFiles))));
+            ContentDisplay(files: files, onOpenedFile: viewFiles, id: args['id'],))));
 
     categorizeFiles();
   }
@@ -121,10 +119,6 @@ class _DashboardState extends State<Dashboard>
     super.build(context);
 
     args = ModalRoute.of(context)!.settings.arguments as Map;
-
-    Peers peers = Peers(
-        id: args['id'], indexerAddr: args['indexerAddr'], port: indexerPort);
-    peers;
 
     return DefaultTabController(
       length: 3,

@@ -86,10 +86,6 @@ class _SplashScreenState extends State<SplashScreen> {
       prefs.getBool('screenShown'),
       prefs.getString('username'),
       prefs.getString('indexerAddr'),
-      // prefs.getStringList('sharedFileDocuments'),
-      // prefs.getStringList('sharedPictures'),
-      // prefs.getStringList('sharedVideos'),
-      // prefs.getStringList('sharedAudio'),
     ];
   }
 

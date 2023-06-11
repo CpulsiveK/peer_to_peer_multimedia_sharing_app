@@ -1,13 +1,18 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 
 class ContentDisplay extends StatefulWidget {
   final List<PlatformFile> files;
   final ValueChanged<PlatformFile> onOpenedFile;
+  final String id;
 
   const ContentDisplay(
-      {Key? key, required this.files, required this.onOpenedFile})
+      {Key? key,
+      required this.files,
+      required this.onOpenedFile,
+      required this.id})
       : super(key: key);
 
   @override
@@ -17,7 +22,7 @@ class ContentDisplay extends StatefulWidget {
 class _ContentDisplayState extends State<ContentDisplay>
     with AutomaticKeepAliveClientMixin {
   FilePickerResult? result;
-  
+
   void selectFile() async {
     showDialog(
         context: context,
@@ -40,6 +45,14 @@ class _ContentDisplayState extends State<ContentDisplay>
   }
 
   void navigateToDashboard() {
+    final Map indexerFiles = {};
+
+    for (PlatformFile file in widget.files) {
+      indexerFiles[file.name] = file.path;
+    }
+
+    Peers.makeFilesPublic(fileInfo: indexerFiles, id: widget.id);
+
     Navigator.pop(context, widget.files);
   }
 
@@ -86,7 +99,7 @@ class _ContentDisplayState extends State<ContentDisplay>
             itemBuilder: (context, int index) {
               final files = widget.files[index];
               Icon? icon;
-    
+
               switch (files.extension) {
                 case 'jpg':
                   icon = const Icon(Icons.photo_outlined, size: 50);
@@ -123,13 +136,13 @@ class _ContentDisplayState extends State<ContentDisplay>
                   break;
                 default:
               }
-    
+
               final kb = files.size / 1024;
               final mb = kb / 1024;
               final fileSize = (mb >= 1)
                   ? '${mb.toStringAsFixed(2)} MB'
                   : '${kb.toStringAsFixed(2)} KB';
-    
+
               return Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(

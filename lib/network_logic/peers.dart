@@ -1,56 +1,41 @@
+import 'dart:convert';
 import 'dart:io';
-import 'peers_utils.dart';
+
+import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_utils.dart';
 
 class Peers {
-  final String id;
-  final String? indexerAddr;
-  final int port;
-
-  Peers({
-    required this.id,
-    required this.indexerAddr,
-    required this.port,
-  });
-
-  Future<void> makeFilesPublic({required Map fileInfo}) async {
+  static Future<void> makeFilesPublic(
+      {required Map fileInfo, required String id}) async {
     try {
-      final peerPocket = await Socket.connect(indexerAddr, port);
-      print('connected to indexer: $indexerAddr');
+      final peerSocket = await Socket.connect(defaultIndexerAddr, indexerPort);
+      print('connected to indexer: $defaultIndexerAddr');
 
       const requestType = 'makeFilePublic';
 
-      sendRequestType(socket: peerPocket, requestType: requestType, id: id);
+      sendRequestType(socket: peerSocket, requestType: requestType, id: id);
 
-      Future.delayed(const Duration(seconds: waitTimeToSendData));
+      peerSocket.write(jsonEncode(fileInfo));
 
-      Future.delayed(const Duration(seconds: waitTimeToSendData));
-
-      fileInfo.forEach(((key, value) async {
-        peerPocket.write(value);
-        await Future.delayed(const Duration(seconds: waitTimeToSendData));
-      }));
-
-      await peerPocket.flush();
-      await peerPocket.close();
+      await peerSocket.flush();
+      await peerSocket.close();
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> searchPublicFiles({required String fileName}) async {
+  static Future<void> searchPublicFiles(
+      {required String fileName, required String id}) async {
     try {
-      final socket = await Socket.connect(indexerAddr, port);
-      print('connected to indexer: $indexerAddr');
+      final peerSocket = await Socket.connect(defaultIndexerAddr, indexerPort);
+      print('connected to indexer: $defaultIndexerAddr');
 
       const requestType = 'searchFile';
 
-      sendRequestType(socket: socket, requestType: requestType, id: id);
+      sendRequestType(socket: peerSocket, requestType: requestType, id: id);
 
-      Future.delayed(const Duration(seconds: waitTimeToSendData));
+      peerSocket.write(fileName);
 
-      socket.write(fileName);
-
-      await for (final data in socket) {
+      await for (final data in peerSocket) {
         final result = String.fromCharCodes(data).trim();
         print(result);
       }
