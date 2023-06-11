@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/onboarding-widgets.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/onboarding-utils.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/utils/onboarding-utils.ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TutorialPage extends StatefulWidget {
@@ -78,70 +78,67 @@ class TutorialPageState extends State<TutorialPage>
 
     return Scaffold(
       backgroundColor: Colors.deepPurple,
-      body: SafeArea(
-        key: const PageStorageKey('onboarding'),
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: tutorialData.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentPageIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return TutorialScreen(
-                    tutorialData: tutorialData[index],
-                  );
-                },
-              ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: tutorialData.length,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPageIndex = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return TutorialScreen(
+                  tutorialData: tutorialData[index],
+                );
+              },
             ),
-            Row(
-              mainAxisAlignment: _currentPageIndex > 0
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.end,
-              children: [
-                if (_currentPageIndex > 0)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: TextButton(
-                      onPressed: _goToPreviousPage,
-                      child: const Text(
-                        'Prev',
-                        style: kNavigatorText,
-                      ),
+          ),
+          Row(
+            mainAxisAlignment: _currentPageIndex > 0
+                ? MainAxisAlignment.spaceBetween
+                : MainAxisAlignment.end,
+            children: [
+              if (_currentPageIndex > 0)
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: TextButton(
+                    onPressed: _goToPreviousPage,
+                    child: const Text(
+                      'Prev',
+                      style: kNavigatorText,
                     ),
                   ),
-                if (_currentPageIndex < tutorialData.length - 1)
-                  Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: TextButton(
-                        onPressed: _goToNextPage,
-                        child: const Text(
-                          'Next',
-                          style: kNavigatorText,
-                        ),
-                      )),
-                if (_currentPageIndex == tutorialData.length - 1)
-                  Padding(
+                ),
+              if (_currentPageIndex < tutorialData.length - 1)
+                Padding(
                     padding: const EdgeInsets.only(right: 10.0),
                     child: TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, 'login',
-                            arguments: args);
-                      },
+                      onPressed: _goToNextPage,
                       child: const Text(
-                        'Done!',
+                        'Next',
                         style: kNavigatorText,
                       ),
+                    )),
+              if (_currentPageIndex == tutorialData.length - 1)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, 'login',
+                          arguments: args);
+                    },
+                    child: const Text(
+                      'Done!',
+                      style: kNavigatorText,
                     ),
                   ),
-              ],
-            ),
-          ],
-        ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }

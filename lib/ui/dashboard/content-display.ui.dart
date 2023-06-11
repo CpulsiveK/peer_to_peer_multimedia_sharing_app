@@ -17,12 +17,7 @@ class ContentDisplay extends StatefulWidget {
 class _ContentDisplayState extends State<ContentDisplay>
     with AutomaticKeepAliveClientMixin {
   FilePickerResult? result;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  
   void selectFile() async {
     showDialog(
         context: context,
@@ -54,6 +49,8 @@ class _ContentDisplayState extends State<ContentDisplay>
 
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        bottomOpacity: 0,
         backgroundColor: Colors.deepPurple,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
@@ -89,7 +86,7 @@ class _ContentDisplayState extends State<ContentDisplay>
             itemBuilder: (context, int index) {
               final files = widget.files[index];
               Icon? icon;
-
+    
               switch (files.extension) {
                 case 'jpg':
                   icon = const Icon(Icons.photo_outlined, size: 50);
@@ -126,13 +123,13 @@ class _ContentDisplayState extends State<ContentDisplay>
                   break;
                 default:
               }
-
+    
               final kb = files.size / 1024;
               final mb = kb / 1024;
               final fileSize = (mb >= 1)
                   ? '${mb.toStringAsFixed(2)} MB'
                   : '${kb.toStringAsFixed(2)} KB';
-
+    
               return Card(
                 elevation: 0,
                 shape: RoundedRectangleBorder(

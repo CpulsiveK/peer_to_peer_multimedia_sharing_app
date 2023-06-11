@@ -38,6 +38,7 @@ class SharedContent extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
                           child: Text(
+                            textAlign: TextAlign.start,
                             sharedFiles[index],
                             style: const TextStyle(
                               overflow: TextOverflow.ellipsis,

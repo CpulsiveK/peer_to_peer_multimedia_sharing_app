@@ -6,7 +6,7 @@ import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers_
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/tabviews.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.ui.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,7 +17,8 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixin {
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin {
   Map args = {};
   FilePickerResult? result;
   List<PlatformFile> receivedSharedFiles = [];
@@ -27,7 +28,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
   List<String> sharedVideos = [];
   List<String> sharedAudio = [];
 
-   @override
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -106,7 +107,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
 
   void loadCache() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     setState(() {
       sharedFileDocuments = prefs.getStringList('sharedFileDocuments') ?? [];
       sharedPictures = prefs.getStringList('sharedPictures') ?? [];
@@ -135,7 +136,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           bottom: const TabBar(
             labelColor: Colors.deepPurple,
             labelPadding: EdgeInsets.all(8.0),
@@ -161,7 +162,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
                   SharedContent(
                       sharedFiles: sharedFileDocuments,
                       itemCount: sharedFileDocuments.length,
-                      icon: const Icon(size: 60, Icons.file_present_rounded)),
+                      icon: const Icon(size: 60, Icons.file_open_outlined)),
                   const Row(
                     children: [
                       DescriptionTexts('Pictures'),
@@ -171,7 +172,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
                   SharedContent(
                       sharedFiles: sharedPictures,
                       itemCount: sharedPictures.length,
-                      icon: const Icon(size: 60, Icons.gif_box_outlined)),
+                      icon: const Icon(size: 60, Icons.photo_library_rounded)),
                   const Row(
                     children: [
                       DescriptionTexts('Video'),
@@ -182,7 +183,7 @@ class _DashboardState extends State<Dashboard> with AutomaticKeepAliveClientMixi
                       itemCount: sharedVideos.length,
                       icon: const Icon(
                         size: 60,
-                        Icons.video_file_rounded,
+                        Icons.video_collection_outlined,
                       )),
                   const Row(
                     children: [
