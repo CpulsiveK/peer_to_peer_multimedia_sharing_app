@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/see-all.ui.dart';
 
 class SharedContent extends StatelessWidget {
   final List<String> sharedFiles;
@@ -36,7 +37,8 @@ class SharedContent extends StatelessWidget {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
+                          padding:
+                              const EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 0.0),
                           child: Text(
                             textAlign: TextAlign.start,
                             sharedFiles[index],
@@ -56,7 +58,13 @@ class SharedContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (itemCount > 0) {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SeeAll(sharedFiles: sharedFiles, itemCount: itemCount, icon: icon,),
+                      ));
+                    }
+                  },
                   child: const Text(
                     'See All',
                     style: TextStyle(

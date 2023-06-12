@@ -145,8 +145,6 @@ class _ContentDisplayState extends State<ContentDisplay>
 
               return Card(
                 elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
                 child: ListTile(
                   leading: icon,
                   title: Text(
@@ -165,8 +163,6 @@ class _ContentDisplayState extends State<ContentDisplay>
                       });
                     },
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
                 ),
               );
             },

@@ -27,7 +27,7 @@ class TutorialPageState extends State<TutorialPage>
       icon: const Icon(
         weight: 50,
         Icons.share,
-        color: kBaseColour,
+        color: iconColours,
         size: 150.0,
       ),
     ),
@@ -38,7 +38,7 @@ class TutorialPageState extends State<TutorialPage>
       icon: const Icon(
         weight: 50,
         Icons.manage_search_rounded,
-        color: kBaseColour,
+        color: iconColours,
         size: 200.0,
       ),
     ),
@@ -77,7 +77,6 @@ class TutorialPageState extends State<TutorialPage>
     final Object? args = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
       body: Column(
         children: [
           Expanded(

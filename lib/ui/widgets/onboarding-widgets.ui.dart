@@ -11,14 +11,9 @@ const kTitleText = TextStyle(
   fontWeight: FontWeight.bold,
   color: kBaseColour,
 );
-const kNavigatorText = TextStyle(
-  color: kBaseColour,
-  fontSize: 16.0,
-  fontWeight: FontWeight.bold
-);
-const kDescriptionText = TextStyle(
-  fontSize: 18,
-  color: kBaseColour,
-  fontWeight: FontWeight.bold
-);
-const kBaseColour = Colors.white;
+const kNavigatorText =
+    TextStyle(color: iconColours, fontSize: 16.0, fontWeight: FontWeight.bold);
+const kDescriptionText =
+    TextStyle(fontSize: 18, color: kBaseColour, fontWeight: FontWeight.bold);
+const kBaseColour = Colors.deepPurple;
+const iconColours = Colors.deepPurple;

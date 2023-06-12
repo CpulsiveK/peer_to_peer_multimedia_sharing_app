@@ -92,6 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: Colors.deepPurple,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +100,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 'MediaShareX',
                 style: TextStyle(
-                    color: Colors.deepPurple,
+                  color: Colors.white,
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic),
