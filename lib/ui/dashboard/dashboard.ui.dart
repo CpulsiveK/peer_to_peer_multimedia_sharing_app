@@ -2,10 +2,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/cards.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/search.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.ui.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,6 +21,7 @@ class _DashboardState extends State<Dashboard>
   Map args = {};
   FilePickerResult? result;
   List<PlatformFile> receivedSharedFiles = [];
+  List<PlatformFile> sharedFiles = [];
 
   List<String> sharedFileDocuments = [];
   List<String> sharedPictures = [];
@@ -70,28 +71,24 @@ class _DashboardState extends State<Dashboard>
   }
 
   void categorizeFiles() {
+    setState(() {
+      sharedFiles.addAll(receivedSharedFiles);
+    });
+
     for (PlatformFile file in receivedSharedFiles) {
       if (file.extension == 'pdf' ||
           file.extension == 'docx' ||
           file.extension == 'xlsx' ||
           file.extension == 'pptx') {
-        setState(() {
-          sharedFileDocuments.add(file.name);
-        });
+        sharedFileDocuments.add(file.name);
       } else if (file.extension == 'jpg' ||
           file.extension == 'gif' ||
           file.extension == 'png') {
-        setState(() {
-          sharedPictures.add(file.name);
-        });
+        sharedPictures.add(file.name);
       } else if (file.extension == 'mp4' || file.extension == 'mkv') {
-        setState(() {
-          sharedVideos.add(file.name);
-        });
+        sharedVideos.add(file.name);
       } else if (file.extension == 'mp3') {
-        setState(() {
-          sharedAudio.add(file.name);
-        });
+        sharedAudio.add(file.name);
       }
     }
 
@@ -100,6 +97,8 @@ class _DashboardState extends State<Dashboard>
 
   void cacheSharedFiles() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setStringList('sharedFIles', sharedFiles as List<String>);
 
     await prefs.setStringList('sharedFIleDocuments', sharedFileDocuments);
     await prefs.setStringList('sharedPictures', sharedPictures);
@@ -111,10 +110,8 @@ class _DashboardState extends State<Dashboard>
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      sharedFileDocuments = prefs.getStringList('sharedFileDocuments') ?? [];
-      sharedPictures = prefs.getStringList('sharedPictures') ?? [];
-      sharedVideos = prefs.getStringList('SharedVideos') ?? [];
-      sharedAudio = prefs.getStringList('sharedAudio') ?? [];
+      sharedFiles =
+          prefs.getStringList('sharedFiles')! as List<PlatformFile>;
     });
   }
 
@@ -140,63 +137,168 @@ class _DashboardState extends State<Dashboard>
             labelPadding: EdgeInsets.all(8.0),
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.deepPurple,
-            tabs: [Tabs('Shared'), Tabs('Online'), Tabs('Downloads')],
+            tabs: [
+              Tab(
+                child: Text(
+                  'Shared',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  'Online',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  'Downloads',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: TabBarView(
             children: [
-              ListView(
-                key: const PageStorageKey('shared'),
-                children: [
-                  const Row(
+              Column(key: const PageStorageKey('shared'), children: [
+                SizedBox(
+                  height: 245,
+                  child: Expanded(
+                      child: ListView(
+                    scrollDirection: Axis.horizontal,
                     children: [
-                      DescriptionTexts('Ms Docs'),
-                      DescriptionTexts('Excel'),
-                      DescriptionTexts('Pdf'),
+                      Cards(sharedFiles: sharedFileDocuments, icon: const Icon(Icons.file_open_outlined),),
+                      Cards(sharedFiles: sharedPictures, icon: const Icon(Icons.photo_rounded)),
+                      Cards(sharedFiles: sharedVideos, icon: const Icon(Icons.video_collection_outlined)),
+                      Cards(sharedFiles: sharedAudio, icon: const Icon(Icons.audiotrack_rounded)),
                     ],
+                  )),
+                ),
+                const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        8.0, 12.0, 0.0, 10.0
+                      ),
+                      child: Text(
+                        'Recently shared',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: sharedFiles.length,
+                    itemBuilder: (context, index) {
+                      final files = sharedFiles.reversed.toList();
+                      Icon? icon;
+
+                      switch (files[index].extension) {
+                        case 'jpg':
+                          icon = const Icon(
+                            Icons.photo_outlined,
+                            size: 40,
+                          );
+                          break;
+                        case 'png':
+                          icon = const Icon(
+                            Icons.photo_outlined,
+                            size: 40,
+                          );
+                          break;
+                        case 'mp4':
+                          icon = const Icon(
+                            Icons.video_file_outlined,
+                            size: 40,
+                          );
+                          break;
+                        case 'mkv':
+                          icon = const Icon(
+                            Icons.video_file_outlined,
+                            size: 40,
+                          );
+                          break;
+                        case 'mp3':
+                          icon = const Icon(
+                            Icons.audiotrack_rounded,
+                            size: 40,
+                          );
+                          break;
+                        case 'pdf':
+                          icon = const Icon(
+                            Icons.file_present_rounded,
+                            size: 40,
+                          );
+                          break;
+                        case 'docx':
+                          icon = const Icon(
+                            Icons.file_present_rounded,
+                            size: 40,
+                          );
+                          break;
+                        case 'xlsx':
+                          icon = const Icon(
+                            Icons.file_present_rounded,
+                            size: 40,
+                          );
+                          break;
+                        case 'pptx':
+                          icon = const Icon(
+                            Icons.file_present_rounded,
+                            size: 40,
+                          );
+                          break;
+                        case 'gif':
+                          icon = const Icon(
+                            Icons.gif_box_outlined,
+                            size: 40,
+                          );
+                          break;
+                        case 'opus':
+                          icon = const Icon(
+                            Icons.gif_box_outlined,
+                            size: 40,
+                          );
+                          break;
+                        default:
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+                        child: Card(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ListTile(
+                            leading: icon,
+                            title: Text(
+                              files[index].name,
+                              style: const TextStyle(color: Colors.deepPurple),
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  SharedContent(
-                      sharedFiles: sharedFileDocuments,
-                      itemCount: sharedFileDocuments.length,
-                      icon: const Icon(size: 60, Icons.file_open_outlined)),
-                  const Row(
-                    children: [
-                      DescriptionTexts('Pictures'),
-                      DescriptionTexts('Gifs'),
-                    ],
-                  ),
-                  SharedContent(
-                      sharedFiles: sharedPictures,
-                      itemCount: sharedPictures.length,
-                      icon: const Icon(size: 60, Icons.photo_library_rounded)),
-                  const Row(
-                    children: [
-                      DescriptionTexts('Video'),
-                    ],
-                  ),
-                  SharedContent(
-                      sharedFiles: sharedVideos,
-                      itemCount: sharedVideos.length,
-                      icon: const Icon(
-                        size: 60,
-                        Icons.video_collection_outlined,
-                      )),
-                  const Row(
-                    children: [
-                      DescriptionTexts('Audio'),
-                    ],
-                  ),
-                  SharedContent(
-                      sharedFiles: sharedAudio,
-                      itemCount: sharedAudio.length,
-                      icon: const Icon(
-                        size: 60,
-                        Icons.audiotrack_rounded,
-                      )),
-                ],
-              ),
+                ),
+              ]),
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
@@ -226,7 +328,8 @@ class _DashboardState extends State<Dashboard>
               child: FloatingActionButton(
                 backgroundColor: Colors.deepPurple,
                 onPressed: () {
-                  showSearch(context: context, delegate: FileSearch(id: args['id']));
+                  showSearch(
+                      context: context, delegate: FileSearch(id: args['id']));
                 },
                 child: const Icon(Icons.search, color: Colors.white),
               ),
