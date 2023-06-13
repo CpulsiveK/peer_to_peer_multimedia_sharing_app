@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     _getIndexerAddr();
     final flags = await _getFlags();
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(
           context,
           flags[1] != null

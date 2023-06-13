@@ -7,18 +7,22 @@ import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/splash
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.transparent,
+    systemNavigationBarDividerColor: Colors.transparent,
   ));
+  
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  runApp(const MyApp());
+  runApp(const MediaShareX());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MediaShareX extends StatelessWidget {
+  const MediaShareX({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -13,6 +13,7 @@ class Peers {
       const requestType = 'makeFilePublic';
 
       sendRequestType(socket: peerSocket, requestType: requestType, id: id);
+      print('[SENT]...$requestType, $id');
 
       peerSocket.write(jsonEncode(fileInfo));
 
@@ -23,24 +24,28 @@ class Peers {
     }
   }
 
-  static Future<void> searchPublicFiles(
+  static Future<String> searchPublicFiles(
       {required String fileName, required String id}) async {
+    final peerSocket = await Socket.connect(defaultIndexerAddr, indexerPort);
+    String result = '';
+
+    print('connected to indexer: $defaultIndexerAddr');
+
+    const requestType = 'searchFile';
+
     try {
-      final peerSocket = await Socket.connect(defaultIndexerAddr, indexerPort);
-      print('connected to indexer: $defaultIndexerAddr');
-
-      const requestType = 'searchFile';
-
       sendRequestType(socket: peerSocket, requestType: requestType, id: id);
 
       peerSocket.write(fileName);
 
       await for (final data in peerSocket) {
-        final result = String.fromCharCodes(data).trim();
+        result = String.fromCharCodes(data).trim();
         print(result);
       }
     } catch (e) {
       print(e);
     }
+
+    return result;
   }
 }

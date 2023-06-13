@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/search.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/tabviews.ui.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -55,8 +56,11 @@ class _DashboardState extends State<Dashboard>
 
   void loadSelectedFiles(List<PlatformFile> files) async {
     receivedSharedFiles = await Navigator.of(context).push(MaterialPageRoute(
-        builder: ((context) =>
-            ContentDisplay(files: files, onOpenedFile: viewFiles, id: args['id'],))));
+        builder: ((context) => ContentDisplay(
+              files: files,
+              onOpenedFile: viewFiles,
+              id: args['id'],
+            ))));
 
     categorizeFiles();
   }
@@ -221,7 +225,9 @@ class _DashboardState extends State<Dashboard>
               right: 1.0,
               child: FloatingActionButton(
                 backgroundColor: Colors.deepPurple,
-                onPressed: () async {},
+                onPressed: () {
+                  showSearch(context: context, delegate: FileSearch(id: args['id']));
+                },
                 child: const Icon(Icons.search, color: Colors.white),
               ),
             ),

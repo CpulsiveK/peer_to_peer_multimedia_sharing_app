@@ -77,67 +77,69 @@ class TutorialPageState extends State<TutorialPage>
     final Object? args = ModalRoute.of(context)!.settings.arguments;
 
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: tutorialData.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPageIndex = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return TutorialScreen(
-                  tutorialData: tutorialData[index],
-                );
-              },
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: tutorialData.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentPageIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return TutorialScreen(
+                    tutorialData: tutorialData[index],
+                  );
+                },
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: _currentPageIndex > 0
-                ? MainAxisAlignment.spaceBetween
-                : MainAxisAlignment.end,
-            children: [
-              if (_currentPageIndex > 0)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: TextButton(
-                    onPressed: _goToPreviousPage,
-                    child: const Text(
-                      'Prev',
-                      style: kNavigatorText,
-                    ),
-                  ),
-                ),
-              if (_currentPageIndex < tutorialData.length - 1)
-                Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
+            Row(
+              mainAxisAlignment: _currentPageIndex > 0
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.end,
+              children: [
+                if (_currentPageIndex > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
                     child: TextButton(
-                      onPressed: _goToNextPage,
+                      onPressed: _goToPreviousPage,
                       child: const Text(
-                        'Next',
+                        'Prev',
                         style: kNavigatorText,
                       ),
-                    )),
-              if (_currentPageIndex == tutorialData.length - 1)
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'login',
-                          arguments: args);
-                    },
-                    child: const Text(
-                      'Done!',
-                      style: kNavigatorText,
                     ),
                   ),
-                ),
-            ],
-          ),
-        ],
+                if (_currentPageIndex < tutorialData.length - 1)
+                  Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: TextButton(
+                        onPressed: _goToNextPage,
+                        child: const Text(
+                          'Next',
+                          style: kNavigatorText,
+                        ),
+                      )),
+                if (_currentPageIndex == tutorialData.length - 1)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'login',
+                            arguments: args);
+                      },
+                      child: const Text(
+                        'Done!',
+                        style: kNavigatorText,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
