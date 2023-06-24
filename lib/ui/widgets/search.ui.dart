@@ -73,7 +73,7 @@ class FileSearch extends SearchDelegate {
           .map((suggestion) => ListTile(
                 title: Text(
                   suggestion,
-                  style: const TextStyle(color: Colors.deepPurple),
+                  style: const TextStyle(color: Colors.blueGrey),
                 ),
                 onTap: () {
                   query = suggestion;

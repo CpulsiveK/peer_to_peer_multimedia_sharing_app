@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/content-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/selected-files-display.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/container.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/search.ui.dart';
@@ -57,7 +57,7 @@ class _DashboardState extends State<Dashboard>
 
   void loadSelectedFiles(List<PlatformFile> files) async {
     receivedSharedFiles = await Navigator.of(context).push(MaterialPageRoute(
-        builder: ((context) => ContentDisplay(
+        builder: ((context) => SelectedFilesDisplay(
               files: files,
               onOpenedFile: viewFiles,
               id: args['id'],
@@ -98,8 +98,6 @@ class _DashboardState extends State<Dashboard>
   void cacheSharedFiles() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setStringList('sharedFIles', sharedFiles as List<String>);
-
     await prefs.setStringList('sharedFIleDocuments', sharedFileDocuments);
     await prefs.setStringList('sharedPictures', sharedPictures);
     await prefs.setStringList('sharedVideos', sharedVideos);
@@ -110,8 +108,10 @@ class _DashboardState extends State<Dashboard>
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      sharedFiles =
-          prefs.getStringList('sharedFiles')! as List<PlatformFile>;
+      sharedFileDocuments = prefs.getStringList('sharedFIleDocuments')!;
+      sharedPictures = prefs.getStringList('sharedPictures')!;
+      sharedVideos = prefs.getStringList('sharedVideos')!;
+      sharedAudio = prefs.getStringList('sharedAudio')!;
     });
   }
 
@@ -128,74 +128,97 @@ class _DashboardState extends State<Dashboard>
           title: const Text(
             'Dashboard',
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w900, color: Colors.black),
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           bottom: const TabBar(
-            labelColor: Colors.deepPurple,
+            labelColor: Colors.teal,
             labelPadding: EdgeInsets.all(8.0),
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.deepPurple,
+            indicatorColor: Colors.teal,
             tabs: [
               Tab(
                 child: Text(
                   'Shared',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                 ),
               ),
               Tab(
                 child: Text(
                   'Online',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
               Tab(
                 child: Text(
                   'Downloads',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16.0),
           child: TabBarView(
             children: [
               Column(key: const PageStorageKey('shared'), children: [
                 SizedBox(
-                  height: 245,
-                  child: Expanded(
-                      child: ListView(
+                  height: 100,
+                  child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      Cards(sharedFiles: sharedFileDocuments, icon: const Icon(Icons.file_open_outlined),),
-                      Cards(sharedFiles: sharedPictures, icon: const Icon(Icons.photo_rounded)),
-                      Cards(sharedFiles: sharedVideos, icon: const Icon(Icons.video_collection_outlined)),
-                      Cards(sharedFiles: sharedAudio, icon: const Icon(Icons.audiotrack_rounded)),
+                      ContainerViews(
+                        sharedFiles: sharedFileDocuments,
+                        icon: const Icon(Icons.file_present_rounded,
+                            size: 40, color: Colors.teal),
+                        sharedIcon: const Icon(
+                          Icons.file_copy_rounded,
+                          size: 32,
+                          color: Colors.white,
+                        ),
+                        fileType: 'Shared files',
+                        fileCount: sharedFileDocuments.length.toString(),
+                      ),
+                      ContainerViews(
+                        sharedFiles: sharedPictures,
+                        icon: const Icon(Icons.photo_outlined,
+                            size: 40, color: Colors.teal),
+                        sharedIcon: const Icon(Icons.photo_library_rounded,
+                            size: 32, color: Colors.white),
+                        fileType: 'Shared images',
+                        fileCount: sharedPictures.length.toString(),
+                      ),
+                      ContainerViews(
+                        sharedFiles: sharedVideos,
+                        icon: const Icon(Icons.video_file_outlined,
+                            size: 40, color: Colors.teal),
+                        sharedIcon: const Icon(Icons.video_collection_rounded,
+                            size: 32, color: Colors.white),
+                        fileType: 'Shared videos',
+                        fileCount: sharedVideos.length.toString(),
+                      ),
+                      ContainerViews(
+                        sharedFiles: sharedAudio,
+                        icon: const Icon(Icons.audiotrack_rounded,
+                            size: 40, color: Colors.teal),
+                        sharedIcon: const Icon(Icons.audiotrack_rounded,
+                            size: 32, color: Colors.white),
+                        fileType: 'Shared audio',
+                        fileCount: sharedAudio.length.toString(),
+                      ),
                     ],
-                  )),
+                  ),
                 ),
                 const Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        8.0, 12.0, 0.0, 10.0
-                      ),
+                      padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 10.0),
                       child: Text(
                         'Recently shared',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -212,66 +235,91 @@ class _DashboardState extends State<Dashboard>
                         case 'jpg':
                           icon = const Icon(
                             Icons.photo_outlined,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'png':
                           icon = const Icon(
                             Icons.photo_outlined,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'mp4':
                           icon = const Icon(
                             Icons.video_file_outlined,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'mkv':
                           icon = const Icon(
                             Icons.video_file_outlined,
+                            color: Colors.teal,
+                            size: 40,
+                          );
+                          break;
+                        case 'webm':
+                          icon = const Icon(
+                            Icons.video_file_outlined,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'mp3':
                           icon = const Icon(
                             Icons.audiotrack_rounded,
+                            color: Colors.teal,
+                            size: 40,
+                          );
+                          break;
+                        case 'opus':
+                          icon = const Icon(
+                            Icons.audiotrack_rounded,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'pdf':
                           icon = const Icon(
                             Icons.file_present_rounded,
+                            color: Colors.teal,
+                            size: 40,
+                          );
+                          break;
+                        case 'PDF':
+                          icon = const Icon(
+                            Icons.file_present_rounded,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'docx':
                           icon = const Icon(
                             Icons.file_present_rounded,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'xlsx':
                           icon = const Icon(
                             Icons.file_present_rounded,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'pptx':
                           icon = const Icon(
                             Icons.file_present_rounded,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
                         case 'gif':
                           icon = const Icon(
                             Icons.gif_box_outlined,
-                            size: 40,
-                          );
-                          break;
-                        case 'opus':
-                          icon = const Icon(
-                            Icons.gif_box_outlined,
+                            color: Colors.teal,
                             size: 40,
                           );
                           break;
@@ -279,19 +327,15 @@ class _DashboardState extends State<Dashboard>
                       }
 
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                        child: Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: ListTile(
-                            leading: icon,
-                            title: Text(
-                              files[index].name,
-                              style: const TextStyle(color: Colors.deepPurple),
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
+                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.1),
+                        child: ListTile(
+                          leading: icon,
+                          title: Text(
+                            files[index].name,
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 16,
+                                color: Colors.black),
                           ),
                         ),
                       );
@@ -326,21 +370,21 @@ class _DashboardState extends State<Dashboard>
               bottom: 90.0,
               right: 1.0,
               child: FloatingActionButton(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: Colors.tealAccent,
                 onPressed: () {
                   showSearch(
                       context: context, delegate: FileSearch(id: args['id']));
                 },
-                child: const Icon(Icons.search, color: Colors.white),
+                child: const Icon(Icons.search, color: Colors.black),
               ),
             ),
             Positioned(
               bottom: 28.0,
               right: 1.0,
               child: FloatingActionButton(
-                backgroundColor: Colors.deepPurple,
+                backgroundColor: Colors.tealAccent,
                 onPressed: selectFile,
-                child: const Icon(Icons.share, color: Colors.white),
+                child: const Icon(Icons.share, color: Colors.black),
               ),
             ),
           ],

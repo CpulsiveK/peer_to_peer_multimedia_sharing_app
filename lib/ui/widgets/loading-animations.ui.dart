@@ -8,7 +8,7 @@ class LoadingAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: LoadingAnimationWidget.fourRotatingDots(
-          color: Colors.deepPurple, size: 60),
+          color: Colors.tealAccent, size: 60),
     );
   }
 }

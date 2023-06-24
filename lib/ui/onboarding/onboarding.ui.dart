@@ -26,9 +26,9 @@ class TutorialPageState extends State<TutorialPage>
           'by using the share icon button at the bottom right corner of your dashboard\n\n',
       icon: const Icon(
         weight: 50,
-        Icons.share,
+        Icons.share_outlined,
         color: iconColours,
-        size: 150.0,
+        size: 200.0,
       ),
     ),
     TutorialData(

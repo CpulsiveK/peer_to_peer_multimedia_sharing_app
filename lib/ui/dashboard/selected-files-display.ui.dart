@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 
-class ContentDisplay extends StatefulWidget {
+class SelectedFilesDisplay extends StatefulWidget {
   final List<PlatformFile> files;
   final ValueChanged<PlatformFile> onOpenedFile;
   final String id;
 
-  const ContentDisplay(
+  const SelectedFilesDisplay(
       {Key? key,
       required this.files,
       required this.onOpenedFile,
@@ -16,10 +16,10 @@ class ContentDisplay extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ContentDisplay> createState() => _ContentDisplayState();
+  State<SelectedFilesDisplay> createState() => _SelectedFilesDisplayState();
 }
 
-class _ContentDisplayState extends State<ContentDisplay>
+class _SelectedFilesDisplayState extends State<SelectedFilesDisplay>
     with AutomaticKeepAliveClientMixin {
   FilePickerResult? result;
 
@@ -64,7 +64,7 @@ class _ContentDisplayState extends State<ContentDisplay>
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.teal,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
           child: Text(
@@ -89,7 +89,7 @@ class _ContentDisplayState extends State<ContentDisplay>
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Expanded(
           child: ListView.builder(
             key: const PageStorageKey('contentDisplay'),
@@ -102,37 +102,56 @@ class _ContentDisplayState extends State<ContentDisplay>
 
               switch (files.extension) {
                 case 'jpg':
-                  icon = const Icon(Icons.photo_outlined, size: 50);
+                  icon = const Icon(Icons.photo_outlined,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'png':
-                  icon = const Icon(Icons.photo_outlined, size: 50);
+                  icon = const Icon(Icons.photo_outlined,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'mp4':
-                  icon = const Icon(Icons.video_file_outlined, size: 50);
+                  icon = const Icon(Icons.video_file_outlined,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'mkv':
-                  icon = const Icon(
-                    Icons.video_file_outlined,
-                    size: 50,
-                  );
+                  icon = const Icon(Icons.video_file_outlined,
+                      size: 40, color: Colors.teal);
+                  break;
+                case 'webm':
+                  icon = const Icon(Icons.video_file_outlined,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'mp3':
-                  icon = const Icon(Icons.audiotrack_rounded, size: 50);
+                  icon = const Icon(Icons.audiotrack_rounded,
+                      size: 40, color: Colors.teal);
+                  break;
+                case 'opus':
+                  icon = const Icon(Icons.audiotrack_rounded,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'pdf':
-                  icon = const Icon(Icons.file_present_rounded, size: 50);
+                  icon = const Icon(Icons.file_present_rounded,
+                      size: 40, color: Colors.teal);
+                  break;
+                case 'PDF':
+                  icon = const Icon(Icons.file_present_rounded,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'docx':
-                  icon = const Icon(Icons.file_present_rounded, size: 50);
+                  icon = const Icon(Icons.file_present_rounded,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'xlsx':
-                  icon = const Icon(Icons.file_present_rounded, size: 50);
+                  icon = const Icon(Icons.file_present_rounded,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'pptx':
-                  icon = const Icon(Icons.file_present_rounded, size: 50);
+                  icon = const Icon(Icons.file_present_rounded,
+                      size: 40, color: Colors.teal);
                   break;
                 case 'gif':
-                  icon = const Icon(Icons.gif_box_outlined, size: 50);
+                  icon = const Icon(Icons.gif_box_outlined,
+                      size: 40, color: Colors.teal);
                   break;
                 default:
               }
@@ -143,26 +162,27 @@ class _ContentDisplayState extends State<ContentDisplay>
                   ? '${mb.toStringAsFixed(2)} MB'
                   : '${kb.toStringAsFixed(2)} KB';
 
-              return Card(
-                elevation: 0,
-                child: ListTile(
-                  leading: icon,
-                  title: Text(
-                    files.name.trim(),
-                    style: const TextStyle(fontSize: 18),
+              return ListTile(
+                leading: icon,
+                title: Text(
+                  files.name.trim(),
+                  style: const TextStyle(fontSize: 18),
+                ),
+                subtitle: Text(
+                  fileSize,
+                  style: const TextStyle(
+                      overflow: TextOverflow.ellipsis, fontSize: 16),
+                ),
+                trailing: IconButton(
+                  icon: const Icon(
+                    Icons.delete_rounded,
+                    color: Colors.blueGrey,
                   ),
-                  subtitle: Text(
-                    fileSize,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete_rounded),
-                    onPressed: () {
-                      setState(() {
-                        widget.files.removeAt(index);
-                      });
-                    },
-                  ),
+                  onPressed: () {
+                    setState(() {
+                      widget.files.removeAt(index);
+                    });
+                  },
                 ),
               );
             },

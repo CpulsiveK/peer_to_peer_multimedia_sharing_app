@@ -58,7 +58,7 @@ class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
                 decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(120)),
-                    color: Colors.deepPurple),
+                    color: Colors.teal),
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Column(
@@ -88,7 +88,7 @@ class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -116,20 +116,20 @@ class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.deepPurple),
+                                        Colors.teal),
                                 minimumSize: MaterialStateProperty.all<Size>(
-                                    const Size(80, 50)),
+                                    const Size(120, 50)),
                               ),
                               onPressed: _isTextfieldEmpty
                                   ? () => showSnackBar(context,
-                                      'username field cannot be left empty')
+                                      'Username field cannot be left empty')
                                   : _onButtonPressed,
                               child: const Text(
-                                "Let's go!",
+                                "Proceed",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                  letterSpacing: 1.25,
+                                    fontSize: 14,
                                     color: Colors.white),
                               )),
                         ),

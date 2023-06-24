@@ -18,31 +18,33 @@ class SeeAll extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.teal,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
           child: Text(
             'Shared',
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 0.5, color: Colors.white),
           ),
         ),
       ),
-      body: ListView.builder(
-        scrollDirection: Axis.vertical,
-        itemCount: itemCount,
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 0,
-            child: ListTile(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: itemCount,
+          itemBuilder: (context, index) {
+            return ListTile(
               leading: icon,
               title: Text(
                 sharedFiles[index].trim(),
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  fontSize: 16),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
