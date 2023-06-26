@@ -35,13 +35,13 @@ class FileSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     searchIndexer(query);
-    print(fileAddr);
-
+    print('*************$fileAddr');
+    
     List<String> ipAdresses = [];
     List<String> filePaths = [];
 
     fileAddr.forEach((key, value) {
-      ipAdresses.add(key[0]);
+      ipAdresses.add(key);
       filePaths.add(value);
     });
 
@@ -52,7 +52,7 @@ class FileSearch extends SearchDelegate {
           .map((addr) => ListTile(
                 title: Text(addr),
                 onTap: () {
-                  close(context, null);
+                  close(context, results);
                 },
               ))
           .toList(),

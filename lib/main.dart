@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/dashboard.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/onboarding.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/login.ui.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/onboarding/splash_screen.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/dashboard/dashboard.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/onboarding/onboarding.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/onboarding/login.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/onboarding/splash_screen.ui.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/selected-files-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/shared/selected-files-display.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/container.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/search.ui.dart';
@@ -239,6 +239,13 @@ class _DashboardState extends State<Dashboard>
                             size: 40,
                           );
                           break;
+                        case 'jpeg':
+                          icon = const Icon(
+                            Icons.photo_outlined,
+                            color: Colors.teal,
+                            size: 40,
+                          );
+                          break;
                         case 'png':
                           icon = const Icon(
                             Icons.photo_outlined,
@@ -326,17 +333,14 @@ class _DashboardState extends State<Dashboard>
                         default:
                       }
 
-                      return Padding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.1),
-                        child: ListTile(
-                          leading: icon,
-                          title: Text(
-                            files[index].name,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                                color: Colors.black),
-                          ),
+                      return ListTile(
+                        leading: icon,
+                        title: Text(
+                          files[index].name,
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 16,
+                              color: Colors.black),
                         ),
                       );
                     },

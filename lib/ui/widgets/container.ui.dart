@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peer_to_peer_multimedia_sharing_application/ui/dashboard/see-all.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/shared/see-all.ui.dart';
 
 class ContainerViews extends StatelessWidget {
   final List<String> sharedFiles;
