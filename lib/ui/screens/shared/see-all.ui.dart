@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 
 class SeeAll extends StatelessWidget {
   final List<String> sharedFiles;
@@ -18,7 +19,7 @@ class SeeAll extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        backgroundColor: Colors.teal,
+        backgroundColor: primaryColor,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
           child: Text(

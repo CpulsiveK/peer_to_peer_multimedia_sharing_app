@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/network_logic/peers.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 
 class SelectedFilesDisplay extends StatefulWidget {
@@ -64,7 +65,7 @@ class _SelectedFilesDisplayState extends State<SelectedFilesDisplay>
       appBar: AppBar(
         elevation: 0,
         bottomOpacity: 0,
-        backgroundColor: Colors.teal,
+        backgroundColor: primaryColor,
         title: const Padding(
           padding: EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
           child: Text(
@@ -103,55 +104,62 @@ class _SelectedFilesDisplayState extends State<SelectedFilesDisplay>
               switch (files.extension) {
                 case 'jpg':
                   icon = const Icon(Icons.photo_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
+                  break;
+                case 'jpeg':
+                  icon = const Icon(
+                    Icons.photo_outlined,
+                    size: 40,
+                    color: primaryColor,
+                  );
                   break;
                 case 'png':
                   icon = const Icon(Icons.photo_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'mp4':
                   icon = const Icon(Icons.video_file_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'mkv':
                   icon = const Icon(Icons.video_file_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'webm':
                   icon = const Icon(Icons.video_file_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'mp3':
                   icon = const Icon(Icons.audiotrack_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'opus':
                   icon = const Icon(Icons.audiotrack_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'pdf':
                   icon = const Icon(Icons.file_present_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'PDF':
                   icon = const Icon(Icons.file_present_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'docx':
                   icon = const Icon(Icons.file_present_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'xlsx':
                   icon = const Icon(Icons.file_present_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'pptx':
                   icon = const Icon(Icons.file_present_rounded,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 case 'gif':
                   icon = const Icon(Icons.gif_box_outlined,
-                      size: 40, color: Colors.teal);
+                      size: 40, color: primaryColor);
                   break;
                 default:
               }
@@ -166,12 +174,12 @@ class _SelectedFilesDisplayState extends State<SelectedFilesDisplay>
                 leading: icon,
                 title: Text(
                   files.name.trim(),
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(
+                      overflow: TextOverflow.ellipsis, fontSize: 18),
                 ),
                 subtitle: Text(
                   fileSize,
-                  style: const TextStyle(
-                      overflow: TextOverflow.ellipsis, fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
                 trailing: IconButton(
                   icon: const Icon(

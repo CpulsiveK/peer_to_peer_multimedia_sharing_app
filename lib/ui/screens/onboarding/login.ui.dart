@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/snackbar.ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
                 decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(120)),
-                    color: Colors.teal),
+                    color: primaryColor),
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Column(
@@ -116,7 +117,7 @@ class _LoginState extends State<Login> with AutomaticKeepAliveClientMixin {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.teal),
+                                        primaryColor),
                                 minimumSize: MaterialStateProperty.all<Size>(
                                     const Size(120, 50)),
                               ),

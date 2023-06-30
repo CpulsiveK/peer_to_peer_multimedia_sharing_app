@@ -15,5 +15,5 @@ const kNavigatorText =
     TextStyle(color: Colors.teal, fontSize: 16.0, fontWeight: FontWeight.bold);
 const kDescriptionText =
     TextStyle(fontSize: 18, color: kBaseColour, fontWeight: FontWeight.bold);
-const kBaseColour = Colors.blueGrey;
-const iconColours = Colors.tealAccent;
+const kBaseColour = Colors.teal;
+const iconColours = Colors.black;

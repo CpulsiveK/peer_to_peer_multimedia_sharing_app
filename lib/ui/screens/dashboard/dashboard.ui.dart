@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/shared/selected-files-display.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/container.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/loading-animations.ui.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/search.ui.dart';
@@ -133,10 +134,10 @@ class _DashboardState extends State<Dashboard>
           elevation: 0,
           backgroundColor: Colors.transparent,
           bottom: const TabBar(
-            labelColor: Colors.teal,
+            labelColor: primaryColor,
             labelPadding: EdgeInsets.all(8.0),
             unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.teal,
+            indicatorColor: primaryColor,
             tabs: [
               Tab(
                 child: Text(
@@ -172,7 +173,7 @@ class _DashboardState extends State<Dashboard>
                       ContainerViews(
                         sharedFiles: sharedFileDocuments,
                         icon: const Icon(Icons.file_present_rounded,
-                            size: 40, color: Colors.teal),
+                            size: 40, color: primaryColor),
                         sharedIcon: const Icon(
                           Icons.file_copy_rounded,
                           size: 32,
@@ -184,7 +185,7 @@ class _DashboardState extends State<Dashboard>
                       ContainerViews(
                         sharedFiles: sharedPictures,
                         icon: const Icon(Icons.photo_outlined,
-                            size: 40, color: Colors.teal),
+                            size: 40, color: primaryColor),
                         sharedIcon: const Icon(Icons.photo_library_rounded,
                             size: 32, color: Colors.white),
                         fileType: 'Shared images',
@@ -193,7 +194,7 @@ class _DashboardState extends State<Dashboard>
                       ContainerViews(
                         sharedFiles: sharedVideos,
                         icon: const Icon(Icons.video_file_outlined,
-                            size: 40, color: Colors.teal),
+                            size: 40, color: primaryColor),
                         sharedIcon: const Icon(Icons.video_collection_rounded,
                             size: 32, color: Colors.white),
                         fileType: 'Shared videos',
@@ -202,7 +203,7 @@ class _DashboardState extends State<Dashboard>
                       ContainerViews(
                         sharedFiles: sharedAudio,
                         icon: const Icon(Icons.audiotrack_rounded,
-                            size: 40, color: Colors.teal),
+                            size: 40, color: primaryColor),
                         sharedIcon: const Icon(Icons.audiotrack_rounded,
                             size: 32, color: Colors.white),
                         fileType: 'Shared audio',
@@ -235,98 +236,98 @@ class _DashboardState extends State<Dashboard>
                         case 'jpg':
                           icon = const Icon(
                             Icons.photo_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'jpeg':
                           icon = const Icon(
                             Icons.photo_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'png':
                           icon = const Icon(
                             Icons.photo_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'mp4':
                           icon = const Icon(
                             Icons.video_file_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'mkv':
                           icon = const Icon(
                             Icons.video_file_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'webm':
                           icon = const Icon(
                             Icons.video_file_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'mp3':
                           icon = const Icon(
                             Icons.audiotrack_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'opus':
                           icon = const Icon(
                             Icons.audiotrack_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'pdf':
                           icon = const Icon(
                             Icons.file_present_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'PDF':
                           icon = const Icon(
                             Icons.file_present_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'docx':
                           icon = const Icon(
                             Icons.file_present_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'xlsx':
                           icon = const Icon(
                             Icons.file_present_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'pptx':
                           icon = const Icon(
                             Icons.file_present_rounded,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
                         case 'gif':
                           icon = const Icon(
                             Icons.gif_box_outlined,
-                            color: Colors.teal,
+                            color: primaryColor,
                             size: 40,
                           );
                           break;
@@ -374,21 +375,21 @@ class _DashboardState extends State<Dashboard>
               bottom: 90.0,
               right: 1.0,
               child: FloatingActionButton(
-                backgroundColor: Colors.tealAccent,
+                backgroundColor: secondaryColor,
                 onPressed: () {
                   showSearch(
                       context: context, delegate: FileSearch(id: args['id']));
                 },
-                child: const Icon(Icons.search, color: Colors.black),
+                child: const Icon(Icons.search, color: Colors.white),
               ),
             ),
             Positioned(
               bottom: 28.0,
               right: 1.0,
               child: FloatingActionButton(
-                backgroundColor: Colors.tealAccent,
+                backgroundColor: secondaryColor,
                 onPressed: selectFile,
-                child: const Icon(Icons.share, color: Colors.black),
+                child: const Icon(Icons.share, color: Colors.white),
               ),
             ),
           ],

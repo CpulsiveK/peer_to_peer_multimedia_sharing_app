@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 
 class LoadingAnimation extends StatelessWidget {
   const LoadingAnimation({super.key});
@@ -8,7 +9,7 @@ class LoadingAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: LoadingAnimationWidget.fourRotatingDots(
-          color: Colors.tealAccent, size: 60),
+          color: secondaryColor, size: 60),
     );
   }
 }

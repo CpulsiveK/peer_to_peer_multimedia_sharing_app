@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peer_to_peer_multimedia_sharing_application/ui/screens/shared/see-all.ui.dart';
+import 'package:peer_to_peer_multimedia_sharing_application/ui/widgets/colors.ui.dart';
 
 class ContainerViews extends StatelessWidget {
   final List<String> sharedFiles;
@@ -23,7 +24,7 @@ class ContainerViews extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 8.0),
         child: Container(
             decoration: const BoxDecoration(
-              color: Colors.teal,
+              color: primaryColor,
               borderRadius: BorderRadius.all(Radius.circular(8.0)),
             ),
             child: Column(
